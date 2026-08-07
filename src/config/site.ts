@@ -3,10 +3,16 @@ import type { SiteConfig } from "@/types/site";
 export const siteConfig: SiteConfig = {
   name: "Trần Nguyễn Anh Khoa",
 
-  title: "Trần Nguyễn Anh Khoa | Software Engineer",
+  firstName: "Anh",
+
+  lastName: "Khoa",
+
+  title: "Software Engineer",
 
   description:
     "Software Engineer passionate about building modern, interactive web experiences.",
+
+  location: "Ho Chi Minh City, Vietnam",
 
   url: "https://yourname.dev",
 
@@ -15,8 +21,9 @@ export const siteConfig: SiteConfig = {
   links: {
     github: "https://github.com/KhoaTraaaannn",
 
-    linkedin: "https://www.linkedin.com/in/trần-nguyễn-anh-khoa-b5a29535a",
+    linkedin:
+      "https://www.linkedin.com/in/trần-nguyễn-anh-khoa-b5a29535a",
 
-    email: "hello@yourname.dev",
+    email: "your-email@example.com",
   },
 };
