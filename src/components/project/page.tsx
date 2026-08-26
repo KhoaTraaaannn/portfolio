@@ -13,6 +13,8 @@ const projects = [
       "React",
       "Node.js",
     ],
+    github:
+      "https://github.com/DaauShen/SmartAIFridge",
   },
   {
     title: "Library Management System",
@@ -23,6 +25,8 @@ const projects = [
       ".NET",
       "PostgreSQL",
     ],
+    github:
+      "https://github.com/karuufumi/Software-Project-Management-CO3011-",
   },
   {
     title: "Campsite E-Commerce",
@@ -33,20 +37,25 @@ const projects = [
       "React",
       "Node.js",
     ],
+    github:
+      "https://github.com/DankoFox/campgear-rental",
   },
   {
-    title: "HRM Portal",
-    description:
-      "Full-stack HRM portal developed during internship at SHPT Software.",
-    technologies: [
-      "React",
-      "ASP.NET",
-      "SQL Server",
-    ],
-  },
+  title: "Tic Tac Toe Web Game",
+  description:
+    "Browser-based Tic Tac Toe game with PHP server logic, session-based game state management, and real-time move updates.",
+  technologies: [
+    "PHP",
+    "HTML",
+    "CSS",
+    "JavaScript",
+  ],
+  github:
+    "https://github.com/KhoaTraaaannn/TicTacToe",
+},
 ];
 
-export default function ProjectsPage() {
+export function ProjectsPage() {
   return (
     <main className="min-h-screen py-24 md:py-32">
       <Container>
@@ -84,6 +93,8 @@ export default function ProjectsPage() {
               key={project.title}
               className="
                 group
+                flex
+                flex-col
                 rounded-xl
                 border
                 p-8
@@ -121,18 +132,45 @@ export default function ProjectsPage() {
                 )}
               </div>
 
-              <button
-                type="button"
-                className="
-                  mt-8
-                  text-sm
-                  font-medium
-                  transition-colors
-                  hover:text-muted-foreground
-                "
-              >
-                View project →
-              </button>
+              <div className="mt-8">
+                {project.github ? (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+                      inline-flex
+                      items-center
+                      gap-2
+                      text-sm
+                      font-medium
+                      transition-colors
+                      hover:text-muted-foreground
+                    "
+                  >
+                    View project
+                    <span
+                      aria-hidden="true"
+                      className="
+                        transition-transform
+                        duration-300
+                        group-hover:translate-x-1
+                      "
+                    >
+                      →
+                    </span>
+                  </a>
+                ) : (
+                  <span
+                    className="
+                      text-sm
+                      text-muted-foreground/50
+                    "
+                  >
+                    Repository unavailable
+                  </span>
+                )}
+              </div>
             </article>
           ))}
         </div>

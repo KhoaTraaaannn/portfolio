@@ -35,13 +35,14 @@ const projects = [
     ],
   },
   {
-    title: "HRM Portal",
+    title: "Tic Tac Toe Web Game",
     description:
-      "Full-stack HRM portal developed during internship at SHPT Software.",
+      "Browser-based Tic Tac Toe game with PHP server logic, session-based game state management, and real-time move updates.",
     technologies: [
-      "React",
-      "ASP.NET",
-      "SQL Server",
+      "PHP",
+      "HTML",
+      "CSS",
+      "JavaScript",
     ],
   },
 ];
@@ -71,7 +72,9 @@ export function Projects() {
                 rounded-xl
                 border
                 p-7
-                transition-colors
+                transition-all
+                duration-300
+                hover:-translate-y-1
                 hover:border-foreground/20
               "
             >
@@ -119,12 +122,19 @@ export function Projects() {
               py-2.5
               text-sm
               font-medium
-              transition-colors
+              transition-all
+              duration-300
+              hover:-translate-y-0.5
               hover:bg-accent
             "
           >
             View More
-            <span aria-hidden="true">→</span>
+            <span
+              aria-hidden="true"
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
           </Link>
         </div>
       </Container>
