@@ -19,11 +19,13 @@ export const siteConfig: SiteConfig = {
   ogImage: "/images/og-image.png",
 
   links: {
-    github: "https://github.com/KhoaTraaaannn",
+    github:
+      "https://github.com/KhoaTraaaannn",
 
     linkedin:
       "https://www.linkedin.com/in/trần-nguyễn-anh-khoa-b5a29535a",
 
-    email: "your-email@example.com",
+    email:
+      "mailto:anhkhoa010904@gmail.com",
   },
 };

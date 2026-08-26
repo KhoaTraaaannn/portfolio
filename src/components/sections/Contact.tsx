@@ -16,12 +16,13 @@ export function Contact() {
           </p>
 
           <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
-            Lets build something great together.
+            Please Hired me, i need food and money to pay for my bread.
           </h2>
 
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Whether you have a project, an opportunity, or simply want to say
-            hello, feel free to reach out.
+            I&apos;m currently looking for new opportunities. If you have a
+            project or role that you think I would be a good fit for, please don&apos;t
+            hesitate to reach out. I&apos;d love to hear from you!
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

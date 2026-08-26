@@ -14,7 +14,7 @@ export function About() {
             </p>
 
             <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
-              Building digital experiences with modern technologies.
+              Trần Nguyễn Anh Khoa
             </h2>
           </div>
 

@@ -46,21 +46,36 @@ const projects = [
   },
 ];
 
-export function Projects() {
+export default function ProjectsPage() {
   return (
-    <section
-      id="projects"
-      className="py-24 md:py-32"
-    >
+    <main className="min-h-screen py-24 md:py-32">
       <Container>
-        <div className="mb-12">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
+        <div className="mb-16">
+          <Link
+            href="/"
+            className="
+              text-sm
+              text-muted-foreground
+              transition-colors
+              hover:text-foreground
+            "
+          >
+            ← Back to portfolio
+          </Link>
+
+          <p className="mt-12 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
             Projects
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">
-            Things I&apos;ve built.
-          </h2>
+          <h1 className="mt-3 text-5xl font-bold tracking-tight md:text-7xl">
+            All Projects.
+          </h1>
+
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
+            A collection of projects I&apos;ve worked on,
+            from full-stack applications to AI and
+            computer vision systems.
+          </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -68,22 +83,25 @@ export function Projects() {
             <article
               key={project.title}
               className="
+                group
                 rounded-xl
                 border
-                p-7
-                transition-colors
+                p-8
+                transition-all
+                duration-300
+                hover:-translate-y-1
                 hover:border-foreground/20
               "
             >
-              <h3 className="text-xl font-semibold">
+              <h2 className="text-2xl font-semibold">
                 {project.title}
-              </h3>
+              </h2>
 
               <p className="mt-4 leading-7 text-muted-foreground">
                 {project.description}
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="mt-8 flex flex-wrap gap-2">
                 {project.technologies.map(
                   (technology) => (
                     <span
@@ -102,32 +120,23 @@ export function Projects() {
                   ),
                 )}
               </div>
+
+              <button
+                type="button"
+                className="
+                  mt-8
+                  text-sm
+                  font-medium
+                  transition-colors
+                  hover:text-muted-foreground
+                "
+              >
+                View project →
+              </button>
             </article>
           ))}
         </div>
-
-        <div className="mt-10 flex justify-center">
-          <Link
-            href="/projects"
-            className="
-              inline-flex
-              items-center
-              gap-2
-              rounded-lg
-              border
-              px-5
-              py-2.5
-              text-sm
-              font-medium
-              transition-colors
-              hover:bg-accent
-            "
-          >
-            View More
-            <span aria-hidden="true">→</span>
-          </Link>
-        </div>
       </Container>
-    </section>
+    </main>
   );
 }
