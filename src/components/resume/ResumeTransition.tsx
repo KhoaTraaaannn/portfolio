@@ -26,16 +26,6 @@ export function ResumeTransition({
     useState(0);
 
   const completedRef = useRef(false);
-
-  /*
-   * Animation.
-   *
-   * We only update React state from the
-   * requestAnimationFrame callback.
-   *
-   * This avoids synchronous setState calls
-   * inside the effect body.
-   */
   useEffect(() => {
     if (!active) {
       completedRef.current = false;
@@ -61,10 +51,6 @@ export function ResumeTransition({
         elapsed / TRANSITION_DURATION,
         1,
       );
-
-      /*
-       * Cinematic ease-out.
-       */
       const easedProgress =
         1 -
         Math.pow(
@@ -105,14 +91,6 @@ export function ResumeTransition({
     };
   }, [active, onComplete]);
 
-  /*
-   * Keep the visual value at zero whenever
-   * the transition is not active.
-   *
-   * This is derived during render instead
-   * of synchronously resetting state inside
-   * an effect.
-   */
   const visibleProgress = active
     ? progress
     : 0;
@@ -144,7 +122,6 @@ export function ResumeTransition({
             duration: 0.25,
           }}
         >
-          {/* Grid */}
           <div
             aria-hidden="true"
             className="
@@ -167,7 +144,6 @@ export function ResumeTransition({
             "
           />
 
-          {/* Scanlines */}
           <div
             aria-hidden="true"
             className="
@@ -186,7 +162,6 @@ export function ResumeTransition({
             "
           />
 
-          {/* Cyan atmosphere */}
           <div
             aria-hidden="true"
             className="
@@ -201,7 +176,6 @@ export function ResumeTransition({
             "
           />
 
-          {/* Main content */}
           <div
             className="
               relative
@@ -211,7 +185,6 @@ export function ResumeTransition({
               px-8
             "
           >
-            {/* Header */}
             <div
               className="
                 mb-16
@@ -246,7 +219,6 @@ export function ResumeTransition({
               </div>
             </div>
 
-            {/* Center */}
             <div
               className="
                 flex
@@ -254,7 +226,6 @@ export function ResumeTransition({
                 items-center
               "
             >
-              {/* Indicator */}
               <div
                 className="
                   mb-8
@@ -284,7 +255,6 @@ export function ResumeTransition({
                 </span>
               </div>
 
-              {/* Percentage */}
               <div
                 className="
                   mb-5
@@ -302,7 +272,6 @@ export function ResumeTransition({
                 %
               </div>
 
-              {/* Progress bar */}
               <div
                 className="
                   h-3
@@ -326,7 +295,6 @@ export function ResumeTransition({
                 />
               </div>
 
-              {/* Status */}
               <p
                 className="
                   mt-8
@@ -342,7 +310,6 @@ export function ResumeTransition({
               </p>
             </div>
 
-            {/* Footer */}
             <div
               className="
                 mt-20
@@ -375,7 +342,6 @@ export function ResumeTransition({
             </div>
           </div>
 
-          {/* Frame */}
           <div
             aria-hidden="true"
             className="
@@ -387,7 +353,6 @@ export function ResumeTransition({
             "
           />
 
-          {/* Corners */}
           <div
             aria-hidden="true"
             className="

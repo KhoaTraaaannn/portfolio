@@ -1,9 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 
-const LOADING_DURATION = 4000;
+import LoadingCharacter from "@/public/Loading.png";
+
+const LOADING_DURATION = 10000;
 
 export function LoadingScene() {
   const [progress, setProgress] = useState(0);
@@ -11,6 +14,7 @@ export function LoadingScene() {
 
   useEffect(() => {
     const startedAt = performance.now();
+
     let frameId = 0;
     let completeTimeout = 0;
 
@@ -25,20 +29,16 @@ export function LoadingScene() {
       setProgress(nextProgress);
 
       if (nextProgress < 1) {
-        frameId = requestAnimationFrame(update);
-      } else {
-        completeTimeout = window.setTimeout(() => {
-          setComplete(true);
+          frameId = requestAnimationFrame(update);
+        } else {
+          completeTimeout = window.setTimeout(() => {
+            setComplete(true);
 
-          window.setTimeout(() => {
             window.dispatchEvent(
-              new CustomEvent("portfolio:navigate", {
-                detail: "about",
-              }),
+              new Event("portfolio:loading-complete"),
             );
-          }, 700);
-        }, 500);
-      }
+          }, 500);
+        }
     };
 
     frameId = requestAnimationFrame(update);
@@ -62,7 +62,11 @@ export function LoadingScene() {
         overflow-hidden
         bg-[#020304]
         text-white
-        ${complete ? "pointer-events-none" : "pointer-events-auto"}
+        ${
+          complete
+            ? "pointer-events-none"
+            : "pointer-events-auto"
+        }
       `}
       initial={{ opacity: 1 }}
       animate={{
@@ -73,12 +77,9 @@ export function LoadingScene() {
         ease: [0.76, 0, 0.24, 1],
       }}
     >
-      {/* =====================================================
-          BACKGROUND
-          ===================================================== */}
+     
 
       <div className="pointer-events-none absolute inset-0">
-        {/* Large grid */}
         <div
           className="
             absolute
@@ -89,7 +90,6 @@ export function LoadingScene() {
           "
         />
 
-        {/* Small grid */}
         <div
           className="
             absolute
@@ -100,7 +100,6 @@ export function LoadingScene() {
           "
         />
 
-        {/* Scanlines */}
         <div
           className="
             absolute
@@ -110,7 +109,6 @@ export function LoadingScene() {
           "
         />
 
-        {/* Vignette */}
         <div
           className="
             absolute
@@ -120,55 +118,143 @@ export function LoadingScene() {
         />
       </div>
 
-      {/* =====================================================
-          OUTER FRAME
-          ===================================================== */}
+     
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-7
+          border
+          border-white/[0.07]
+          md:inset-8
+        "
+      >
+        <div
+          className="
+            absolute
+            -left-px
+            -top-px
+            h-10
+            w-10
+            border-l
+            border-t
+            border-cyan-300/60
+          "
+        />
 
-      <div className="pointer-events-none absolute inset-7 border border-white/[0.07] md:inset-8">
-        {/* Top left */}
-        <div className="absolute -left-px -top-px h-10 w-10 border-l border-t border-cyan-300/60" />
+        <div
+          className="
+            absolute
+            -right-px
+            -top-px
+            h-10
+            w-10
+            border-r
+            border-t
+            border-cyan-300/60
+          "
+        />
 
-        {/* Top right */}
-        <div className="absolute -right-px -top-px h-10 w-10 border-r border-t border-cyan-300/60" />
+        <div
+          className="
+            absolute
+            -bottom-px
+            -left-px
+            h-10
+            w-10
+            border-b
+            border-l
+            border-cyan-300/60
+          "
+        />
 
-        {/* Bottom left */}
-        <div className="absolute -bottom-px -left-px h-10 w-10 border-b border-l border-cyan-300/60" />
-
-        {/* Bottom right */}
-        <div className="absolute -bottom-px -right-px h-10 w-10 border-b border-r border-cyan-300/60" />
+        <div
+          className="
+            absolute
+            -bottom-px
+            -right-px
+            h-10
+            w-10
+            border-b
+            border-r
+            border-cyan-300/60
+          "
+        />
       </div>
 
-      {/* =====================================================
-          TOP HUD
-          ===================================================== */}
+      
 
-      <div className="absolute left-14 right-14 top-14 flex items-start justify-between md:left-14 md:right-14">
+      <div
+        className="
+          absolute
+          left-14
+          right-14
+          top-14
+          flex
+          items-start
+          justify-between
+        "
+      >
         <div className="space-y-2">
-          <p className="font-mono text-[10px] tracking-[0.35em] text-cyan-200/60">
+          <p
+            className="
+              font-mono
+              text-[10px]
+              tracking-[0.35em]
+              text-cyan-200/60
+            "
+          >
             PORTFOLIO.OS
           </p>
 
-          <p className="font-mono text-[10px] tracking-[0.3em] text-cyan-200/50">
+          <p
+            className="
+              font-mono
+              text-[10px]
+              tracking-[0.3em]
+              text-cyan-200/50
+            "
+          >
             v1.0.0
           </p>
         </div>
 
         <div className="text-right">
-          <p className="font-mono text-[10px] tracking-[0.3em] text-cyan-200/55">
+          <p
+            className="
+              font-mono
+              text-[10px]
+              tracking-[0.3em]
+              text-cyan-200/55
+            "
+          >
             SYSTEM INITIALIZATION
           </p>
 
-          <p className="mt-2 font-mono text-[10px] tracking-[0.3em] text-cyan-200/45">
+          <p
+            className="
+              mt-2
+              font-mono
+              text-[10px]
+              tracking-[0.3em]
+              text-cyan-200/45
+            "
+          >
             PLEASE WAIT
           </p>
         </div>
       </div>
 
-      {/* =====================================================
-          LOADING STATUS
-          ===================================================== */}
+      
 
-      <div className="absolute left-1/2 top-[12%] -translate-x-1/2">
+      <div
+        className="
+          absolute
+          left-1/2
+          top-[12%]
+          -translate-x-1/2
+        "
+      >
         <div className="flex items-center gap-4">
           <motion.span
             className="
@@ -189,23 +275,36 @@ export function LoadingScene() {
             }}
           />
 
-          <span className="font-mono text-[11px] tracking-[0.42em] text-white/45">
+          <span
+            className="
+              font-mono
+              text-[11px]
+              tracking-[0.42em]
+              text-white/45
+            "
+          >
             LOADING...
           </span>
         </div>
       </div>
 
-      {/* =====================================================
-          MAIN SCENE
-          ===================================================== */}
+      
 
-      <div className="absolute inset-x-0 top-[23%] px-6 md:top-[25%] md:px-12">
+      <div
+        className="
+          absolute
+          inset-x-0
+          top-[23%]
+          px-6
+          md:top-[25%]
+          md:px-12
+        "
+      >
         <div className="mx-auto w-full max-w-[1200px]">
-
-          {/* Scene */}
           <div className="relative h-[270px] md:h-[310px]">
 
-            {/* Atmospheric glow behind fire */}
+            
+
             <motion.div
               className="
                 absolute
@@ -230,9 +329,7 @@ export function LoadingScene() {
               }}
             />
 
-            {/* =================================================
-                GROUND
-                ================================================= */}
+            
 
             <div
               className="
@@ -259,191 +356,88 @@ export function LoadingScene() {
               "
             />
 
-            {/* Tiny ground marks */}
+            <div
+              className="
+                absolute
+                bottom-4
+                left-[13%]
+                h-1
+                w-10
+                border-t
+                border-white/10
+              "
+            />
 
-            <div className="absolute bottom-4 left-[13%] h-1 w-10 border-t border-white/10" />
-            <div className="absolute bottom-4 left-[28%] h-1 w-6 border-t border-white/10" />
-            <div className="absolute bottom-4 right-[27%] h-1 w-12 border-t border-white/10" />
-            <div className="absolute bottom-4 right-[12%] h-1 w-7 border-t border-white/10" />
+            <div
+              className="
+                absolute
+                bottom-4
+                left-[28%]
+                h-1
+                w-6
+                border-t
+                border-white/10
+              "
+            />
 
-            {/* =================================================
-                STICKMAN
-                Sitting + hugging knees
-                ================================================= */}
+            <div
+              className="
+                absolute
+                bottom-4
+                right-[27%]
+                h-1
+                w-12
+                border-t
+                border-white/10
+              "
+            />
+
+            <div
+              className="
+                absolute
+                bottom-4
+                right-[12%]
+                h-1
+                w-7
+                border-t
+                border-white/10
+              "
+            />
+
+            
 
             <motion.div
               className="
                 absolute
-                bottom-6
+                bottom-5
                 left-[43%]
                 -translate-x-1/2
               "
               animate={{
-                y: [0, -1, 0],
+                y: [0, -2, 0],
+                rotate: [0, -0.35, 0],
               }}
               transition={{
-                duration: 2.8,
+                duration: 3.8,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
             >
-              <svg
-                width="150"
-                height="170"
-                viewBox="0 0 150 170"
-                fill="none"
-                aria-hidden="true"
-              >
-                {/* Head */}
-                <circle
-                  cx="60"
-                  cy="32"
-                  r="17"
-                  stroke="white"
-                  strokeWidth="3"
-                />
-
-                {/* Slightly tired eyes */}
-                <circle
-                  cx="54"
-                  cy="30"
-                  r="1.5"
-                  fill="white"
-                />
-
-                <circle
-                  cx="66"
-                  cy="30"
-                  r="1.5"
-                  fill="white"
-                />
-
-                {/* Tiny tired mouth */}
-                <path
-                  d="M56 38 Q60 35 64 38"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-
-                {/* Body */}
-                <path
-                  d="M59 49 L65 82"
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-
-                {/* Left arm wrapping knee */}
-                <motion.path
-                  d="
-                    M57 54
-                    L43 67
-                    L48 84
-                    L67 92
-                  "
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  animate={{
-                    rotate: [-1, 1, -1],
-                  }}
-                  transition={{
-                    duration: 2.4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-
-                {/* Right arm wrapping knee */}
-                <motion.path
-                  d="
-                    M61 55
-                    L75 67
-                    L82 82
-                    L68 91
-                  "
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  animate={{
-                    rotate: [1, -1, 1],
-                  }}
-                  transition={{
-                    duration: 2.4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.2,
-                  }}
-                />
-
-                {/* Left bent leg */}
-                <path
-                  d="
-                    M65 82
-                    L43 102
-                    L29 105
-                  "
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-
-                {/* Left foot */}
-                <path
-                  d="M29 105 L18 105"
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-
-                {/* Right bent leg / knee */}
-                <path
-                  d="
-                    M65 82
-                    L88 99
-                    L103 99
-                  "
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-
-                {/* Right foot */}
-                <path
-                  d="M103 99 L113 99"
-                  stroke="white"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-
-                {/* Cold breath */}
-                <motion.path
-                  d="M80 55 Q89 50 84 42"
-                  stroke="#67e8f9"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  opacity="0.35"
-                  animate={{
-                    opacity: [0.1, 0.45, 0.1],
-                    y: [2, -5, 2],
-                  }}
-                  transition={{
-                    duration: 2.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              </svg>
+              <Image
+                src={LoadingCharacter}
+                alt=""
+                priority
+                className="
+                  h-[210px]
+                  w-auto
+                  object-contain
+                  md:h-[250px]
+                  drop-shadow-[0_0_18px_rgba(255,170,80,0.08)]
+                "
+              />
             </motion.div>
 
-            {/* =================================================
-                CAMPFIRE
-                ================================================= */}
+            
 
             <div
               className="
@@ -453,7 +447,6 @@ export function LoadingScene() {
                 -translate-x-1/2
               "
             >
-              {/* Fire glow */}
               <motion.div
                 className="
                   absolute
@@ -478,7 +471,6 @@ export function LoadingScene() {
                 }}
               />
 
-              {/* Sparks */}
               {[...Array(12)].map((_, index) => (
                 <motion.span
                   key={index}
@@ -496,11 +488,14 @@ export function LoadingScene() {
                     marginTop: `${-(index + 2) * 7}px`,
                   }}
                   animate={{
-                    y: [-2, -25 - (index % 3) * 12],
+                    y: [
+                      -2,
+                      -25 - (index % 3) * 12,
+                    ],
                     x: [
                       0,
-                      ((index % 2 === 0 ? 1 : -1) *
-                        (5 + (index % 4) * 5)),
+                      (index % 2 === 0 ? 1 : -1) *
+                        (5 + (index % 4) * 5),
                     ],
                     opacity: [0, 0.8, 0],
                     scale: [0.5, 1, 0.2],
@@ -514,9 +509,12 @@ export function LoadingScene() {
                 />
               ))}
 
-              {/* Fire */}
               <motion.div
-                className="relative h-20 w-24"
+                className="
+                  relative
+                  h-20
+                  w-24
+                "
                 animate={{
                   scaleX: [1, 0.96, 1.04, 1],
                 }}
@@ -526,7 +524,6 @@ export function LoadingScene() {
                   ease: "easeInOut",
                 }}
               >
-                {/* Outer flame */}
                 <motion.div
                   className="
                     absolute
@@ -551,7 +548,6 @@ export function LoadingScene() {
                   }}
                 />
 
-                {/* Inner flame */}
                 <motion.div
                   className="
                     absolute
@@ -575,23 +571,59 @@ export function LoadingScene() {
                 />
               </motion.div>
 
-              {/* Logs */}
-              <div className="absolute bottom-0 left-1/2 h-3 w-16 -translate-x-1/2 rotate-12 rounded-full bg-orange-900/80" />
-              <div className="absolute bottom-0 left-1/2 h-3 w-16 -translate-x-1/2 -rotate-12 rounded-full bg-orange-950/80" />
+              <div
+                className="
+                  absolute
+                  bottom-0
+                  left-1/2
+                  h-3
+                  w-16
+                  -translate-x-1/2
+                  rotate-12
+                  rounded-full
+                  bg-orange-900/80
+                "
+              />
+
+              <div
+                className="
+                  absolute
+                  bottom-0
+                  left-1/2
+                  h-3
+                  w-16
+                  -translate-x-1/2
+                  -rotate-12
+                  rounded-full
+                  bg-orange-950/80
+                "
+              />
             </div>
           </div>
         </div>
       </div>
 
-      {/* =====================================================
-          PROGRESS
-          ===================================================== */}
+      
 
-      <div className="absolute bottom-[18%] left-1/2 w-[76%] max-w-[1080px] -translate-x-1/2">
-
-        {/* Labels */}
+      <div
+        className="
+          absolute
+          bottom-[18%]
+          left-1/2
+          w-[76%]
+          max-w-[1080px]
+          -translate-x-1/2
+        "
+      >
         <div className="mb-3 flex items-end justify-between">
-          <span className="font-mono text-[11px] tracking-[0.25em] text-cyan-300/80">
+          <span
+            className="
+              font-mono
+              text-[11px]
+              tracking-[0.25em]
+              text-cyan-300/80
+            "
+          >
             0%
           </span>
 
@@ -607,14 +639,28 @@ export function LoadingScene() {
             {String(percentage).padStart(3, "0")}%
           </motion.span>
 
-          <span className="font-mono text-[11px] tracking-[0.25em] text-cyan-300/80">
+          <span
+            className="
+              font-mono
+              text-[11px]
+              tracking-[0.25em]
+              text-cyan-300/80
+            "
+          >
             100%
           </span>
         </div>
 
-        {/* Bar */}
-        <div className="relative h-5 border border-white/25 bg-black/50 p-[3px]">
-
+        <div
+          className="
+            relative
+            h-5
+            border
+            border-white/25
+            bg-black/50
+            p-[3px]
+          "
+        >
           <motion.div
             className="
               relative
@@ -627,10 +673,18 @@ export function LoadingScene() {
               scaleX: progress,
             }}
           >
-            <div className="absolute inset-y-0 right-0 w-10 bg-white/35 blur-[3px]" />
+            <div
+              className="
+                absolute
+                inset-y-0
+                right-0
+                w-10
+                bg-white/35
+                blur-[3px]
+              "
+            />
           </motion.div>
 
-          {/* scan highlight */}
           <motion.div
             className="
               pointer-events-none
@@ -651,27 +705,54 @@ export function LoadingScene() {
           />
         </div>
 
-        {/* Loading text */}
         <div className="mt-10 text-center">
-          <p className="font-mono text-sm tracking-[0.45em] text-white/55">
+          <p
+            className="
+              font-mono
+              text-sm
+              tracking-[0.45em]
+              text-white/55
+            "
+          >
             LOADING... PLEASE WAIT
           </p>
         </div>
       </div>
 
-      {/* =====================================================
-          BOTTOM HUD
-          ===================================================== */}
+      
 
-      <div className="absolute bottom-10 left-14 right-14 flex items-end justify-between">
-
-        {/* Left */}
+      <div
+        className="
+          absolute
+          bottom-10
+          left-14
+          right-14
+          flex
+          items-end
+          justify-between
+        "
+      >
         <div>
-          <p className="font-mono text-[10px] tracking-[0.3em] text-white/40">
+          <p
+            className="
+              font-mono
+              text-[10px]
+              tracking-[0.3em]
+              text-white/40
+            "
+          >
             SECURE CONNECTION
           </p>
 
-          <p className="mt-2 font-mono text-[10px] tracking-[0.3em] text-white/35">
+          <p
+            className="
+              mt-2
+              font-mono
+              text-[10px]
+              tracking-[0.3em]
+              text-white/35
+            "
+          >
             ESTABLISHING...
           </p>
 
@@ -682,13 +763,27 @@ export function LoadingScene() {
           </div>
         </div>
 
-        {/* Right */}
         <div className="text-right">
-          <p className="font-mono text-[10px] tracking-[0.3em] text-white/40">
+          <p
+            className="
+              font-mono
+              text-[10px]
+              tracking-[0.3em]
+              text-white/40
+            "
+          >
             SYSTEM STATUS
           </p>
 
-          <p className="mt-2 font-mono text-[10px] tracking-[0.3em] text-white/35">
+          <p
+            className="
+              mt-2
+              font-mono
+              text-[10px]
+              tracking-[0.3em]
+              text-white/35
+            "
+          >
             {complete ? "ONLINE" : "CONNECTING..."}
           </p>
 

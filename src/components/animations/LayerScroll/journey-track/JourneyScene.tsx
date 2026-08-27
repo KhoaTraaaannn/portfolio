@@ -8,28 +8,8 @@ import {
 
 type JourneySceneProps = {
   children: ReactNode;
-
-  /**
-   * Zero-based scene index.
-   *
-   * Example:
-   * 0 = Hero
-   * 1 = About
-   * 2 = Skills
-   */
   index?: number;
-
-  /**
-   * Global journey progress.
-   *
-   * Expected range:
-   * 0 → 1
-   */
   progress?: number;
-
-  /**
-   * Total number of scenes.
-   */
   sceneCount?: number;
 };
 
@@ -89,14 +69,6 @@ export function JourneyScene({
     sceneCount,
   ]);
 
-  /*
-   * Enter / exit progress.
-   *
-   * These intentionally overlap the scene's
-   * local progress so transitions can begin
-   * before the camera reaches the exact
-   * beginning/end of a scene.
-   */
   const enterProgress = useMemo(() => {
     return smoothstep(
       sceneProgress / 0.35,
@@ -113,11 +85,6 @@ export function JourneyScene({
   const isActive =
     sceneProgress > 0 &&
     sceneProgress < 1;
-
-  /*
-   * CSS custom properties become the contract
-   * between JourneyScene and JourneyLayer.
-   */
   const style = {
     "--journey-progress": sceneProgress,
     "--journey-enter": enterProgress,

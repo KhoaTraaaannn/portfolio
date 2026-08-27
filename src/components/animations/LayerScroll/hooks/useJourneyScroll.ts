@@ -13,13 +13,6 @@ const EPSILON = 0.1;
 
 const WHEEL_THRESHOLD = 8;
 
-/*
- * One wheel gesture = one scene.
- *
- * The camera moves one full viewport height
- * instead of moving by the raw wheel delta.
- */
-const WHEEL_SECTION_STEP = 1;
 
 const VELOCITY_SMOOTHING = 0.18;
 const VELOCITY_EPSILON = 0.01;
@@ -85,19 +78,11 @@ export function useJourneyScroll() {
   const reducedMotion =
     useRef(false);
 
-  /*
-   * Current logical section.
-   *
-   * This prevents a single wheel gesture
-   * from being interpreted as hundreds of
-   * tiny scroll movements.
-   */
+  
   const currentSection =
     useRef(0);
 
-  /*
-   * Resize.
-   */
+  
   useEffect(() => {
     const updateViewport = () => {
       const height =
@@ -122,9 +107,6 @@ export function useJourneyScroll() {
           maxY,
         );
 
-      /*
-       * Recalculate logical section after resize.
-       */
       currentSection.current =
         clamp(
           Math.round(
@@ -175,9 +157,7 @@ export function useJourneyScroll() {
     };
   }, []);
 
-  /*
-   * Camera animation.
-   */
+  
   useEffect(() => {
     let frameId = 0;
     let running = true;
@@ -214,9 +194,7 @@ export function useJourneyScroll() {
         }
       }
 
-      /*
-       * Camera velocity.
-       */
+      
       const frameDelta =
         currentY.current -
         previousY.current;
@@ -304,43 +282,7 @@ export function useJourneyScroll() {
     };
   }, [viewportHeight]);
 
-  /*
-   * Wheel navigation.
-   *
-   * IMPORTANT:
-   *
-   * We do NOT add deltaY directly to targetY.
-   *
-   * Instead:
-   *
-   * wheel down → next scene
-   * wheel up   → previous scene
-   *
-   * Each scene is exactly one viewport tall.
-   */
-    /*
-   * Wheel gesture navigation.
-   *
-   * A single physical scroll gesture can emit
-   * many wheel events, especially on trackpads.
-   *
-   * We therefore accumulate wheel movement and
-   * allow only ONE section change per gesture.
-   *
-   * Example:
-   *
-   *   deltaY 12
-   *   deltaY 18
-   *   deltaY 30
-   *   deltaY 22
-   *
-   * becomes:
-   *
-   *   section 0 → section 1
-   *
-   * The user must release / settle the wheel
-   * before another section transition is allowed.
-   */
+ 
 
     useEffect(() => {
         const WHEEL_TRIGGER = 32;
@@ -374,10 +316,7 @@ export function useJourneyScroll() {
 
         event.preventDefault();
 
-        /*
-        * Keep the gesture alive while wheel
-        * events continue arriving.
-        */
+       
         if (settleTimer !== null) {
             window.clearTimeout(
             settleTimer,
@@ -390,11 +329,7 @@ export function useJourneyScroll() {
             WHEEL_SETTLE_DELAY,
             );
 
-        /*
-        * Once this physical gesture has already
-        * changed section, ignore the remaining
-        * wheel events.
-        */
+       
         if (gestureConsumed) {
             return;
         }
@@ -406,11 +341,7 @@ export function useJourneyScroll() {
             ? 1
             : -1;
 
-        /*
-        * If the user changes direction while
-        * the gesture is still building, reset
-        * the accumulator.
-        */
+       
         if (
             wheelDirection !== 0 &&
             incomingDirection !==
@@ -440,14 +371,7 @@ export function useJourneyScroll() {
             SECTION_COUNT - 1,
             );
 
-        /*
-        * At the beginning/end of the journey,
-        * consume the gesture anyway.
-        *
-        * This prevents a trackpad from building
-        * a huge accumulator while sitting at a
-        * boundary.
-        */
+        
         gestureConsumed = true;
 
         wheelAccumulator = 0;
@@ -459,15 +383,11 @@ export function useJourneyScroll() {
             return;
         }
 
-        /*
-        * Change logical section exactly once.
-        */
+        
         currentSection.current =
             nextSection;
 
-        /*
-        * Move the camera exactly one viewport.
-        */
+        
         targetY.current =
             nextSection *
             window.innerHeight;
@@ -497,9 +417,7 @@ export function useJourneyScroll() {
         };
     }, []);
 
-  /*
-   * Keyboard navigation.
-   */
+  
   useEffect(() => {
     const handleKeyDown = (
       event: KeyboardEvent,
@@ -590,9 +508,7 @@ export function useJourneyScroll() {
     };
   }, []);
 
-  /*
-   * Reduced motion.
-   */
+  
   useEffect(() => {
     const mediaQuery =
       window.matchMedia(

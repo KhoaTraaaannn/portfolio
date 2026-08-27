@@ -132,7 +132,6 @@ export function SectionNavigator({
           duration: 0.25,
         }}
       >
-        {/* Main cloud */}
         <motion.div
           className="absolute left-1/2 top-1/2 h-48 w-[130%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-background/90 blur-3xl"
           animate={
@@ -152,7 +151,6 @@ export function SectionNavigator({
           }}
         />
 
-        {/* Upper cloud */}
         <motion.div
           className="absolute -left-[15%] top-[25%] h-32 w-[70%] rounded-full bg-background/70 blur-3xl"
           animate={
@@ -172,7 +170,6 @@ export function SectionNavigator({
           }}
         />
 
-        {/* Lower cloud */}
         <motion.div
           className="absolute -right-[15%] bottom-[20%] h-40 w-[75%] rounded-full bg-background/70 blur-3xl"
           animate={

@@ -61,18 +61,10 @@ const LAYERS = [
   
 ] as const;
 
-/*
- * Liquid animation duration.
- *
- * This is purely visual.
- * It does NOT lock scrolling.
- */
+
 const TRANSITION_DURATION = 1000;
 
-/*
- * The liquid should cover the old scene
- * before we swap the active scene.
- */
+
 const FLOOR_SWITCH_DELAY = 500;
 
 const WHEEL_THRESHOLD = 8;
@@ -94,26 +86,15 @@ export function LayerScroll({
       source: "wheel",
     });
 
-  /*
-   * Current logical section.
-   *
-   * This is intentionally independent from
-   * React state so wheel handlers never suffer
-   * from stale state.
-   */
+  
   const activeLayerRef =
     useRef(0);
 
-  /*
-   * Prevent multiple section changes from
-   * the same physical wheel gesture.
-   */
+  
   const gestureConsumed =
     useRef(false);
 
-  /*
-   * Accumulate trackpad wheel movement.
-   */
+  
   const wheelAccumulator =
     useRef(0);
 
@@ -123,14 +104,7 @@ export function LayerScroll({
   const wheelResetTimer =
     useRef<number | null>(null);
 
-  /*
-   * Transition timers.
-   *
-   * These are ONLY used to synchronize the
-   * liquid cover/reveal with the scene swap.
-   *
-   * They are NOT used to lock wheel input.
-   */
+  
   const transitionTimers =
     useRef<number[]>([]);
 
@@ -167,17 +141,7 @@ export function LayerScroll({
       [],
     );
 
-  /*
-   * Navigate to a specific section.
-   *
-   * Flow:
-   *
-   * 1. Liquid covers current scene.
-   * 2. Swap active scene.
-   * 3. Liquid reveals new scene.
-   *
-   * There is NO wheel lock here.
-   */
+  
   const transitionTo =
     useCallback(
       (
@@ -211,11 +175,7 @@ export function LayerScroll({
         const target =
           LAYERS[targetIndex];
 
-        /*
-         * Reduced motion:
-         *
-         * Skip the liquid entirely.
-         */
+        
         if (
           shouldReduceMotion
         ) {
@@ -231,9 +191,7 @@ export function LayerScroll({
 
         clearTransitionTimers();
 
-        /*
-         * Start liquid cover.
-         */
+        
         setTransition({
           active: true,
           direction,
@@ -242,10 +200,7 @@ export function LayerScroll({
           source,
         });
 
-        /*
-         * Once liquid covers the screen,
-         * swap the actual scene.
-         */
+        
         scheduleTransition(
           () => {
             activeLayerRef.current =
@@ -258,9 +213,7 @@ export function LayerScroll({
           FLOOR_SWITCH_DELAY,
         );
 
-        /*
-         * Reveal the new scene.
-         */
+       
         scheduleTransition(
           () => {
             setTransition(
@@ -280,19 +233,7 @@ export function LayerScroll({
       ],
     );
 
-  /*
-   * Reset the current physical wheel gesture.
-   *
-   * This is what allows:
-   *
-   * wheel gesture #1
-   *     → About
-   *
-   * release / settle
-   *
-   * wheel gesture #2
-   *     → Skills
-   */
+  
   const resetWheelGesture =
     useCallback(() => {
       wheelAccumulator.current =
@@ -308,12 +249,7 @@ export function LayerScroll({
         null;
     }, []);
 
-  /*
-   * Wheel navigation.
-   *
-   * One physical gesture produces
-   * one logical section change.
-   */
+  
   useEffect(() => {
     const handleWheel = (
       event: WheelEvent,
@@ -327,10 +263,7 @@ export function LayerScroll({
 
       event.preventDefault();
 
-      /*
-       * Keep the gesture alive while
-       * wheel events continue arriving.
-       */
+      
       if (
         wheelResetTimer.current !==
         null
@@ -346,9 +279,7 @@ export function LayerScroll({
           140,
         );
 
-      /*
-       * One gesture = one section.
-       */
+      
       if (
         gestureConsumed.current
       ) {
@@ -362,10 +293,7 @@ export function LayerScroll({
           ? 1
           : -1;
 
-      /*
-       * Direction reversal means this
-       * is probably a new gesture.
-       */
+      
       if (
         wheelDirection.current !==
           0 &&
@@ -382,9 +310,7 @@ export function LayerScroll({
       wheelAccumulator.current +=
         Math.abs(event.deltaY);
 
-      /*
-       * Ignore very tiny wheel noise.
-       */
+      
       if (
         wheelAccumulator.current <
         32
@@ -392,9 +318,7 @@ export function LayerScroll({
         return;
       }
 
-      /*
-       * Consume this physical gesture.
-       */
+      
       gestureConsumed.current =
         true;
 
@@ -405,9 +329,7 @@ export function LayerScroll({
         activeLayerRef.current +
         incomingDirection;
 
-      /*
-       * Boundary.
-       */
+      
       if (
         nextIndex < 0 ||
         nextIndex >=
@@ -450,9 +372,7 @@ export function LayerScroll({
     transitionTo,
   ]);
 
-  /*
-   * Keyboard navigation.
-   */
+  
   useEffect(() => {
     const handleKeyDown = (
       event: KeyboardEvent,
@@ -508,9 +428,7 @@ export function LayerScroll({
     };
   }, [transitionTo]);
 
-  /*
-   * Navbar navigation.
-   */
+  
   useEffect(() => {
     const handleNavigation = (
       event: Event,
@@ -556,9 +474,7 @@ export function LayerScroll({
     };
   }, [transitionTo]);
 
-  /*
-   * Lock native browser scrolling.
-   */
+  
   useEffect(() => {
     const html =
       document.documentElement;
@@ -587,9 +503,7 @@ export function LayerScroll({
     };
   }, []);
 
-  /*
-   * Cleanup.
-   */
+  
   useEffect(() => {
     return () => {
       clearTransitionTimers();
@@ -607,9 +521,7 @@ export function LayerScroll({
     clearTransitionTimers,
   ]);
 
-  /*
-   * Normalize children.
-   */
+  
   const layerChildren =
     Array.isArray(children)
       ? children
@@ -626,7 +538,6 @@ export function LayerScroll({
         bg-[#020304]
       "
     >
-      {/* Cinematic background */}
       <div
         aria-hidden="true"
         className="

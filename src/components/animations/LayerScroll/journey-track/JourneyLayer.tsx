@@ -7,68 +7,13 @@ import {
 
 type JourneyLayerProps = {
   children: ReactNode;
-
-  /**
-   * Visual depth of the layer.
-   *
-   * Higher values move more aggressively
-   * with the scene camera.
-   *
-   * Suggested:
-   * 0 = background
-   * 1 = atmosphere
-   * 2 = visual
-   * 3 = content
-   * 4 = foreground
-   */
   depth?: number;
-
-  /**
-   * Parallax multiplier.
-   *
-   * 0 = no movement
-   * 1 = normal movement
-   * >1 = foreground / aggressive movement
-   */
-  parallax?: number;
-
-  /**
-   * Maximum scale variation.
-   *
-   * Example:
-   * 0.08 = up to 8% scale variation.
-   */
+  parallax?: number;  
   scale?: number;
-
-  /**
-   * Maximum opacity variation.
-   *
-   * 0 = always fully visible
-   * 1 = fully fades during enter/exit
-   */
   opacity?: number;
-
-  /**
-   * Maximum blur in pixels.
-   */
   blur?: number;
-
-  /**
-   * Maximum rotation in degrees.
-   */
   rotate?: number;
-
-  /**
-   * Additional classes.
-   */
   className?: string;
-
-  /**
-   * Whether the layer should fill
-   * the entire scene.
-   *
-   * Default: true.
-   */
   fill?: boolean;
 };
 
@@ -129,17 +74,7 @@ export function JourneyLayer({
     30,
   );
 
-  /*
-   * JourneyScene provides:
-   *
-   * --journey-progress
-   * --journey-enter
-   * --journey-exit
-   * --journey-index
-   *
-   * JourneyLayer consumes those values without
-   * creating another scroll listener or animation loop.
-   */
+ 
 
   const style = {
     "--journey-layer-depth":
@@ -160,21 +95,7 @@ export function JourneyLayer({
     "--journey-layer-rotate":
       `${safeRotate}deg`,
 
-    /*
-     * PARALLAX
-     *
-     * The layer moves relative to the scene's
-     * local progress.
-     *
-     * progress = 0
-     *     → entering
-     *
-     * progress = 0.5
-     *     → centered
-     *
-     * progress = 1
-     *     → leaving
-     */
+    
     transform: `
       translate3d(
         0,
@@ -215,18 +136,7 @@ export function JourneyLayer({
       )
     `,
 
-    /*
-     * OPACITY
-     *
-     * opacity = 0
-     *     → layer stays fully visible
-     *
-     * opacity > 0
-     *     → layer fades in and out.
-     *
-     * The `max()` prevents the computed opacity
-     * from becoming negative.
-     */
+    
     opacity:
       safeOpacity > 0
         ? `max(
@@ -245,13 +155,7 @@ export function JourneyLayer({
           )`
         : 1,
 
-    /*
-     * BLUR
-     *
-     * Blur increases while the layer is
-     * entering or leaving and becomes sharp
-     * around the center of the scene.
-     */
+    
     filter:
       safeBlur > 0
         ? `
@@ -270,9 +174,7 @@ export function JourneyLayer({
         `
         : "none",
 
-    /*
-     * GPU-friendly animation properties.
-     */
+    
     willChange:
       "transform, opacity, filter",
 

@@ -21,12 +21,7 @@ export async function GET() {
         "Content-Disposition":
           'inline; filename="Tran-Nguyen-Anh-Khoa-Resume.pdf"',
 
-        /*
-         * Do not cache the resume while developing.
-         *
-         * This prevents Chrome from continuing to
-         * display the old PDF metadata.
-         */
+       
         "Cache-Control":
           "no-store, no-cache, must-revalidate, proxy-revalidate",
 

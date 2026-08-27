@@ -21,9 +21,6 @@ export function ResumeViewer({
   open,
   onClose,
 }: ResumeViewerProps) {
-  /*
-   * Close with Escape.
-   */
   useEffect(() => {
     if (!open) {
       return;
@@ -49,11 +46,6 @@ export function ResumeViewer({
       );
     };
   }, [open, onClose]);
-
-  /*
-   * Prevent clicks inside the viewer
-   * from closing the overlay.
-   */
   const handleContentClick = (
     event: MouseEvent<HTMLDivElement>,
   ) => {
@@ -129,7 +121,6 @@ export function ResumeViewer({
             }}
             onClick={handleContentClick}
           >
-            {/* Toolbar */}
             <div
               className="
                 flex
@@ -222,7 +213,6 @@ export function ResumeViewer({
               </div>
             </div>
 
-            {/* PDF */}
             <div
               className="
                 min-h-0

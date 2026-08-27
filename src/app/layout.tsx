@@ -41,15 +41,12 @@ export default function RootLayout({
           <LoadingScene />
 
           <div className="flex min-h-screen flex-col">
-            {/* Persistent top navigation */}
             <Navbar />
 
-            {/* LayerScroll viewport */}
             <main className="relative min-h-0 flex-1">
               {children}
             </main>
 
-            {/* Persistent bottom footer */}
             <Footer />
           </div>
         </ThemeProvider>

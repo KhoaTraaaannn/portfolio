@@ -1,25 +1,13 @@
 "use client";
 
-import {
-  useEffect,
-  type CSSProperties,
-} from "react";
+import type { CSSProperties } from "react";
+
+import { HeroActions } from "@/components/hero/HeroActions";
+import { HeroBackground } from "@/components/hero/HeroBackground";
+import { HeroDescription } from "@/components/hero/HeroDescription";
+import { HeroTitle } from "@/components/hero/HeroTitle";
 
 export function Hero() {
-  useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      window.dispatchEvent(
-        new CustomEvent("portfolio:navigate", {
-          detail: "about",
-        }),
-      );
-    }, 20000);
-
-    return () => {
-      window.clearTimeout(timeout);
-    };
-  }, []);
-
   const style = {
     transform: `
       translate3d(
@@ -46,6 +34,7 @@ export function Hero() {
         )
       )
     `,
+
     opacity: `
       calc(
         var(--journey-enter) *
@@ -55,6 +44,7 @@ export function Hero() {
         )
       )
     `,
+
     filter: `
       blur(
         calc(
@@ -69,42 +59,56 @@ export function Hero() {
         )
       )
     `,
-    willChange:
-      "transform, opacity, filter",
-    backfaceVisibility:
-      "hidden",
-    WebkitBackfaceVisibility:
-      "hidden",
+
+    willChange: "transform, opacity, filter",
+
+    backfaceVisibility: "hidden",
+
+    WebkitBackfaceVisibility: "hidden",
   } as CSSProperties;
 
   return (
-    <div
+    <section
+      id="hero"
       className="
+        relative
         flex
         min-h-[calc(100vh-4rem)]
         w-full
         items-center
-        justify-center
         overflow-hidden
       "
     >
-      <h1
-        data-journey-welcome
-        aria-label="Welcome"
-        style={style}
+      <HeroBackground />
+
+      <div
         className="
-          select-none
-          whitespace-nowrap
-          text-center
-          text-[clamp(4rem,9vw,9rem)]
-          font-black
-          leading-none
-          tracking-[-0.06em]
-          text-foreground
+          mx-auto
+          flex
+          w-full
+          max-w-7xl
+          flex-col
+          justify-center
+          px-6
+          py-24
+          md:px-8
+          lg:px-12
         "
       >
-        WELCOME!
-      </h1>
-    </div>
+        <div
+          style={style}
+          className="
+            max-w-5xl
+            space-y-8
+          "
+        >
+          <HeroTitle />
+
+          <HeroDescription />
+
+          <HeroActions />
+        </div>
+      </div>
+    </section>
   );
 }

@@ -70,7 +70,6 @@ export function LiquidTransition({
           ],
         }}
       >
-        {/* Liquid */}
 
         <div
           className="
@@ -80,13 +79,11 @@ export function LiquidTransition({
           "
         />
 
-        {/* Liquid edge */}
 
         <LiquidEdge
           fromTop={fromTop}
         />
 
-        {/* Section title */}
 
         <div
           className="
