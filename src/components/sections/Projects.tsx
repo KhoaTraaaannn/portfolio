@@ -1,53 +1,39 @@
-import Link from "next/link";
+"use client";
 
 import { Container } from "@/components/layout/Container";
+import { useLocale } from "@/hooks/useLocale";
 
 const projects = [
   {
     title: "Smart AI Fridge",
-    description:
-      "IoT-enabled smart refrigerator with computer vision for food recognition.",
-    technologies: [
-      "Python",
-      "TensorFlow",
-      "React",
-      "Node.js",
-    ],
+    descriptionKey: "smartAiFridge",
+    technologies: ["Python", "TensorFlow", "React", "Node.js"],
+    github: "https://github.com/DaauShen/SmartAIFridge",
   },
   {
     title: "Library Management System",
-    description:
-      "Full-stack library management platform using React and ASP.NET Core.",
-    technologies: [
-      "React",
-      ".NET",
-      "PostgreSQL",
-    ],
+    descriptionKey: "libraryManagement",
+    technologies: ["React", ".NET", "PostgreSQL"],
+    github:
+      "https://github.com/karuufumi/Software-Project-Management-CO3011-",
   },
   {
     title: "Campsite E-Commerce",
-    description:
-      "Booking and e-commerce platform for campsite services.",
-    technologies: [
-      "TypeScript",
-      "React",
-      "Node.js",
-    ],
+    descriptionKey: "campsiteEcommerce",
+    technologies: ["TypeScript", "React", "Node.js"],
+    github: "https://github.com/DankoFox/campgear-rental",
   },
   {
     title: "Tic Tac Toe Web Game",
-    description:
-      "Browser-based Tic Tac Toe game with PHP server logic, session-based game state management, and real-time move updates.",
-    technologies: [
-      "PHP",
-      "HTML",
-      "CSS",
-      "JavaScript",
-    ],
+    descriptionKey: "ticTacToe",
+    technologies: ["PHP", "HTML", "CSS", "JavaScript"],
+    github: "https://github.com/KhoaTraaaannn/TicTacToe",
   },
-];
+] as const;
 
 export function Projects() {
+  const { content } = useLocale();
+
   return (
     <section
       id="projects"
@@ -56,11 +42,11 @@ export function Projects() {
       <Container>
         <div className="mb-12">
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            Projects
+            {content.projects.label}
           </p>
 
           <h2 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">
-            Things I&apos;ve built.
+            {content.projects.title}
           </h2>
         </div>
 
@@ -69,6 +55,9 @@ export function Projects() {
             <article
               key={project.title}
               className="
+                group
+                flex
+                flex-col
                 rounded-xl
                 border
                 p-7
@@ -83,59 +72,58 @@ export function Projects() {
               </h3>
 
               <p className="mt-4 leading-7 text-muted-foreground">
-                {project.description}
+                {content.projects.descriptions[project.descriptionKey]}
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                {project.technologies.map(
-                  (technology) => (
-                    <span
-                      key={technology}
-                      className="
-                        rounded-full
-                        border
-                        px-3
-                        py-1
-                        text-sm
-                        text-muted-foreground
-                      "
-                    >
-                      {technology}
-                    </span>
-                  ),
-                )}
+                {project.technologies.map((technology) => (
+                  <span
+                    key={technology}
+                    className="
+                      rounded-full
+                      border
+                      px-3
+                      py-1
+                      text-sm
+                      text-muted-foreground
+                    "
+                  >
+                    {technology}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-8">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    text-sm
+                    font-medium
+                    transition-colors
+                    hover:text-muted-foreground
+                  "
+                >
+                  {content.projects.viewProject}
+
+                  <span
+                    aria-hidden="true"
+                    className="
+                      transition-transform
+                      duration-300
+                      group-hover:translate-x-1
+                    "
+                  >
+                    →
+                  </span>
+                </a>
               </div>
             </article>
           ))}
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <Link
-            href="/projects"
-            className="
-              inline-flex
-              items-center
-              gap-2
-              rounded-lg
-              border
-              px-5
-              py-2.5
-              text-sm
-              font-medium
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:bg-accent
-            "
-          >
-            View More
-            <span
-              aria-hidden="true"
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            >
-              →
-            </span>
-          </Link>
         </div>
       </Container>
     </section>

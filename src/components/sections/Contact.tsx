@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
 import { siteConfig } from "@/config/site";
+import { useLocale } from "@/hooks/useLocale";
 
 export function Contact() {
+  const { content } = useLocale();
+
   return (
     <section
       id="contact"
@@ -12,43 +17,69 @@ export function Contact() {
       <Container>
         <div className="flex flex-col items-center text-center">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            Contact
+            {content.contact.label}
           </p>
 
           <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
-            Please Hired me, i need food and money to pay for my bread.
+            {content.contact.title}
           </h2>
 
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            I&apos;m currently looking for new opportunities. If you have a
-            project or role that you think I would be a good fit for, please don&apos;t
-            hesitate to reach out. I&apos;d love to hear from you!
+            {content.contact.description}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href={`mailto:${siteConfig.links.email}`}
-              className="rounded-lg bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90"
+              className="
+                rounded-lg
+                bg-foreground
+                px-6
+                py-3
+                text-sm
+                font-medium
+                text-background
+                transition-opacity
+                hover:opacity-90
+              "
             >
-              Get in Touch
+              {content.contact.email}
             </Link>
 
             <Link
               href={siteConfig.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border px-6 py-3 text-sm font-medium transition-colors hover:bg-accent"
+              className="
+                rounded-lg
+                border
+                px-6
+                py-3
+                text-sm
+                font-medium
+                transition-colors
+                hover:bg-accent
+              "
             >
-              LinkedIn
+              {content.contact.linkedin}
             </Link>
 
             <Link
               href={siteConfig.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border px-6 py-3 text-sm font-medium transition-colors hover:bg-accent"
+              className="
+                rounded-lg
+                border
+                px-6
+                py-3
+                text-sm
+                font-medium
+                transition-colors
+                hover:bg-accent
+              "
             >
-              GitHub
+              {content.contact.github}
             </Link>
           </div>
         </div>

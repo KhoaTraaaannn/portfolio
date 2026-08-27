@@ -1,40 +1,39 @@
 "use client";
 
 import { useState } from "react";
-
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
 import { siteConfig } from "@/config/site";
-
 import { ResumeViewer } from "@/components/resume/ResumeViewer";
+import { useLocale } from "@/hooks/useLocale";
 
 const navigation = [
   {
-    label: "About",
+    key: "about",
     targetId: "about",
   },
   {
-    label: "Skills",
+    key: "skills",
     targetId: "skills",
   },
   {
-    label: "Projects",
+    key: "projects",
     targetId: "projects",
   },
   {
-    label: "Experience",
+    key: "experience",
     targetId: "experience",
   },
   {
-    label: "Timeline",
+    key: "timeline",
     targetId: "timeline",
   },
   {
-    label: "Contact",
+    key: "contact",
     targetId: "contact",
   },
-];
+] as const;
 
 function navigateToLayer(targetId: string) {
   window.dispatchEvent(
@@ -47,6 +46,18 @@ function navigateToLayer(targetId: string) {
 export function Navbar() {
   const [resumeOpen, setResumeOpen] =
     useState(false);
+
+  const {
+    locale,
+    setLocale,
+    content,
+  } = useLocale();
+
+  const toggleLocale = () => {
+    setLocale(
+      locale === "vi" ? "en" : "vi",
+    );
+  };
 
   return (
     <>
@@ -68,6 +79,7 @@ export function Navbar() {
             justify-between
           "
         >
+          {/* Brand */}
           <Link
             href="/"
             className="
@@ -79,6 +91,7 @@ export function Navbar() {
             {siteConfig.name}
           </Link>
 
+          {/* Navigation */}
           <nav
             aria-label="Main navigation"
             className="
@@ -93,7 +106,9 @@ export function Navbar() {
                 key={item.targetId}
                 type="button"
                 onClick={() =>
-                  navigateToLayer(item.targetId)
+                  navigateToLayer(
+                    item.targetId,
+                  )
                 }
                 className="
                   text-sm
@@ -102,15 +117,56 @@ export function Navbar() {
                   hover:text-foreground
                 "
               >
-                {item.label}
+                {content.nav[item.key]}
               </button>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* Actions */}
+          <div
+            className="
+              flex
+              items-center
+              gap-2
+            "
+          >
+            {/* Language */}
             <button
               type="button"
-              onClick={() => setResumeOpen(true)}
+              onClick={toggleLocale}
+              aria-label={
+                locale === "vi"
+                  ? content.language.english
+                  : content.language.vietnamese
+              }
+              className="
+                inline-flex
+                h-9
+                min-w-9
+                items-center
+                justify-center
+                rounded-md
+                border
+                px-2.5
+                text-xs
+                font-medium
+                uppercase
+                tracking-wide
+                transition-colors
+                hover:bg-accent
+              "
+            >
+              {locale === "vi"
+                ? "EN"
+                : "VI"}
+            </button>
+
+            {/* Resume */}
+            <button
+              type="button"
+              onClick={() =>
+                setResumeOpen(true)
+              }
               className="
                 rounded-md
                 bg-foreground
@@ -123,7 +179,7 @@ export function Navbar() {
                 hover:opacity-90
               "
             >
-              Resume
+              {content.nav.resume}
             </button>
           </div>
         </Container>
@@ -131,7 +187,9 @@ export function Navbar() {
 
       <ResumeViewer
         open={resumeOpen}
-        onClose={() => setResumeOpen(false)}
+        onClose={() =>
+          setResumeOpen(false)
+        }
       />
     </>
   );

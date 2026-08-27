@@ -1,64 +1,41 @@
 "use client";
 
 import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
+type ReactNode,
+useCallback,
+useEffect,
+useRef,
+useState,
 } from "react";
 
 import { useReducedMotion } from "motion/react";
-
-import { Footer } from "@/components/layout/Footer";
+import { useLocale } from "@/hooks/useLocale";
 
 import { LiquidTransition } from "./LiquidTransition";
 
 type LayerScrollProps = {
-  children: ReactNode;
+children: ReactNode;
 };
 
 type TransitionSource =
-  | "wheel"
-  | "navbar";
+| "wheel"
+| "navbar";
 
 type TransitionState = {
-  active: boolean;
-  direction: 1 | -1;
-  label: string;
-  source: TransitionSource;
+active: boolean;
+direction: 1 | -1;
+label: string;
+source: TransitionSource;
 };
 
 const LAYERS = [
-  {
-    id: "hero",
-    label: "Home",
-  },
-  {
-    id: "about",
-    label: "About",
-  },
-  {
-    id: "skills",
-    label: "Skills",
-  },
-  {
-    id: "projects",
-    label: "Projects",
-  },
-  {
-    id: "experience",
-    label: "Experience",
-  },
-  {
-    id: "timeline",
-    label: "Timeline",
-  },
-  {
-    id: "contact",
-    label: "Contact",
-  },
-  
+{ id: "hero" },
+{ id: "about" },
+{ id: "skills" },
+{ id: "projects" },
+{ id: "experience" },
+{ id: "timeline" },
+{ id: "contact" },
 ] as const;
 
 
@@ -69,577 +46,585 @@ const FLOOR_SWITCH_DELAY = 500;
 
 const WHEEL_THRESHOLD = 8;
 
+
 export function LayerScroll({
-  children,
+children,
 }: LayerScrollProps) {
-  const shouldReduceMotion =
+const shouldReduceMotion =
     useReducedMotion();
 
-  const [activeLayer, setActiveLayer] =
+const { content } = useLocale();
+
+const [activeLayer, setActiveLayer] =
     useState(0);
 
-  const [transition, setTransition] =
+const [transition, setTransition] =
     useState<TransitionState>({
-      active: false,
-      direction: 1,
-      label: "",
-      source: "wheel",
+    active: false,
+    direction: 1,
+    label: "",
+    source: "wheel",
     });
 
-  
-  const activeLayerRef =
+
+const activeLayerRef =
     useRef(0);
 
-  
-  const gestureConsumed =
+
+const gestureConsumed =
     useRef(false);
 
-  
-  const wheelAccumulator =
+
+const wheelAccumulator =
     useRef(0);
 
-  const wheelDirection =
+const wheelDirection =
     useRef<1 | -1 | 0>(0);
 
-  const wheelResetTimer =
+const wheelResetTimer =
     useRef<number | null>(null);
 
-  
-  const transitionTimers =
+
+const transitionTimers =
     useRef<number[]>([]);
 
-  const clearTransitionTimers =
+const clearTransitionTimers =
     useCallback(() => {
-      transitionTimers.current.forEach(
+    transitionTimers.current.forEach(
         (timer) => {
-          window.clearTimeout(timer);
+        window.clearTimeout(timer);
         },
-      );
+    );
 
-      transitionTimers.current = [];
+    transitionTimers.current = [];
     },
     []);
 
-  const scheduleTransition =
+const scheduleTransition =
     useCallback(
-      (
+    (
         callback: () => void,
         delay: number,
-      ) => {
+    ) => {
         const timer =
-          window.setTimeout(
+        window.setTimeout(
             callback,
             delay,
-          );
+        );
 
         transitionTimers.current.push(
-          timer,
+        timer,
         );
 
         return timer;
-      },
-      [],
+    },
+    [],
     );
 
-  
-  const transitionTo =
+
+const transitionTo =
     useCallback(
-      (
+    (
         targetIndex: number,
         source: TransitionSource,
-      ) => {
+    ) => {
         const currentIndex =
-          activeLayerRef.current;
+        activeLayerRef.current;
 
         if (
-          targetIndex < 0 ||
-          targetIndex >=
+        targetIndex < 0 ||
+        targetIndex >=
             LAYERS.length
         ) {
-          return;
+        return;
         }
 
         if (
-          targetIndex ===
-          currentIndex
+        targetIndex ===
+        currentIndex
         ) {
-          return;
+        return;
         }
 
         const direction: 1 | -1 =
-          targetIndex >
-          currentIndex
+        targetIndex >
+        currentIndex
             ? 1
             : -1;
 
         const target =
-          LAYERS[targetIndex];
+        LAYERS[targetIndex];
 
         
         if (
-          shouldReduceMotion
+        shouldReduceMotion
         ) {
-          activeLayerRef.current =
+        activeLayerRef.current =
             targetIndex;
 
-          setActiveLayer(
+        setActiveLayer(
             targetIndex,
-          );
+        );
 
-          return;
+        return;
         }
 
         clearTransitionTimers();
 
         
         setTransition({
-          active: true,
-          direction,
-          label:
-            target.label,
-          source,
-        });
+active: true,
+direction,
+label:
+    target.id === "hero"
+    ? content.nav.home
+    : content.nav[
+        target.id as keyof typeof content.nav
+        ],
+source,
+});
 
         
         scheduleTransition(
-          () => {
+        () => {
             activeLayerRef.current =
-              targetIndex;
+            targetIndex;
 
             setActiveLayer(
-              targetIndex,
+            targetIndex,
             );
-          },
-          FLOOR_SWITCH_DELAY,
+        },
+        FLOOR_SWITCH_DELAY,
         );
 
-       
+    
         scheduleTransition(
-          () => {
+        () => {
             setTransition(
-              (current) => ({
+            (current) => ({
                 ...current,
                 active: false,
-              }),
+            }),
             );
-          },
-          TRANSITION_DURATION,
+        },
+        TRANSITION_DURATION,
         );
-      },
-      [
+    },
+    [
         shouldReduceMotion,
         clearTransitionTimers,
         scheduleTransition,
-      ],
+        content,
+    ],
     );
 
-  
-  const resetWheelGesture =
+
+const resetWheelGesture =
     useCallback(() => {
-      wheelAccumulator.current =
+    wheelAccumulator.current =
         0;
 
-      wheelDirection.current =
+    wheelDirection.current =
         0;
 
-      gestureConsumed.current =
+    gestureConsumed.current =
         false;
 
-      wheelResetTimer.current =
+    wheelResetTimer.current =
         null;
     }, []);
 
-  
-  useEffect(() => {
+
+useEffect(() => {
     const handleWheel = (
-      event: WheelEvent,
+    event: WheelEvent,
     ) => {
-      if (
+    if (
         Math.abs(event.deltaY) <
         WHEEL_THRESHOLD
-      ) {
+    ) {
         return;
-      }
+    }
 
-      event.preventDefault();
+    event.preventDefault();
 
-      
-      if (
+    
+    if (
         wheelResetTimer.current !==
         null
-      ) {
+    ) {
         window.clearTimeout(
-          wheelResetTimer.current,
+        wheelResetTimer.current,
         );
-      }
+    }
 
-      wheelResetTimer.current =
+    wheelResetTimer.current =
         window.setTimeout(
-          resetWheelGesture,
-          140,
+        resetWheelGesture,
+        140,
         );
 
-      
-      if (
+    
+    if (
         gestureConsumed.current
-      ) {
+    ) {
         return;
-      }
+    }
 
-      const incomingDirection:
+    const incomingDirection:
         | 1
         | -1 =
         event.deltaY > 0
-          ? 1
-          : -1;
+        ? 1
+        : -1;
 
-      
-      if (
+    
+    if (
         wheelDirection.current !==
-          0 &&
+        0 &&
         wheelDirection.current !==
-          incomingDirection
-      ) {
+        incomingDirection
+    ) {
         wheelAccumulator.current =
-          0;
-      }
+        0;
+    }
 
-      wheelDirection.current =
+    wheelDirection.current =
         incomingDirection;
 
-      wheelAccumulator.current +=
+    wheelAccumulator.current +=
         Math.abs(event.deltaY);
 
-      
-      if (
+    
+    if (
         wheelAccumulator.current <
         32
-      ) {
+    ) {
         return;
-      }
+    }
 
-      
-      gestureConsumed.current =
+    
+    gestureConsumed.current =
         true;
 
-      wheelAccumulator.current =
+    wheelAccumulator.current =
         0;
 
-      const nextIndex =
+    const nextIndex =
         activeLayerRef.current +
         incomingDirection;
 
-      
-      if (
+    
+    if (
         nextIndex < 0 ||
         nextIndex >=
-          LAYERS.length
-      ) {
+        LAYERS.length
+    ) {
         return;
-      }
+    }
 
-      transitionTo(
+    transitionTo(
         nextIndex,
         "wheel",
-      );
+    );
     };
 
     window.addEventListener(
-      "wheel",
-      handleWheel,
-      {
+    "wheel",
+    handleWheel,
+    {
         passive: false,
-      },
+    },
     );
 
     return () => {
-      window.removeEventListener(
+    window.removeEventListener(
         "wheel",
         handleWheel,
-      );
+    );
 
-      if (
+    if (
         wheelResetTimer.current !==
         null
-      ) {
+    ) {
         window.clearTimeout(
-          wheelResetTimer.current,
+        wheelResetTimer.current,
         );
-      }
+    }
     };
-  }, [
+}, [
     resetWheelGesture,
     transitionTo,
-  ]);
+]);
 
-  
-  useEffect(() => {
+
+useEffect(() => {
     const handleKeyDown = (
-      event: KeyboardEvent,
+    event: KeyboardEvent,
     ) => {
-      let direction:
+    let direction:
         | 1
         | -1
         | null = null;
 
-      if (
+    if (
         event.key ===
-          "ArrowDown" ||
+        "ArrowDown" ||
         event.key ===
-          "PageDown"
-      ) {
+        "PageDown"
+    ) {
         direction = 1;
-      }
+    }
 
-      if (
+    if (
         event.key ===
-          "ArrowUp" ||
+        "ArrowUp" ||
         event.key ===
-          "PageUp"
-      ) {
+        "PageUp"
+    ) {
         direction = -1;
-      }
+    }
 
-      if (
+    if (
         direction === null
-      ) {
+    ) {
         return;
-      }
+    }
 
-      event.preventDefault();
+    event.preventDefault();
 
-      transitionTo(
+    transitionTo(
         activeLayerRef.current +
-          direction,
+        direction,
         "wheel",
-      );
+    );
     };
 
     window.addEventListener(
-      "keydown",
-      handleKeyDown,
+    "keydown",
+    handleKeyDown,
     );
 
     return () => {
-      window.removeEventListener(
+    window.removeEventListener(
         "keydown",
         handleKeyDown,
-      );
+    );
     };
-  }, [transitionTo]);
+}, [transitionTo]);
 
-  
-  useEffect(() => {
+
+useEffect(() => {
     const handleNavigation = (
-      event: Event,
+    event: Event,
     ) => {
-      const customEvent =
+    const customEvent =
         event as CustomEvent<string>;
 
-      const targetId =
+    const targetId =
         customEvent.detail;
 
-      if (!targetId) {
+    if (!targetId) {
         return;
-      }
+    }
 
-      const targetIndex =
+    const targetIndex =
         LAYERS.findIndex(
-          (layer) =>
+        (layer) =>
             layer.id === targetId,
         );
 
-      if (
+    if (
         targetIndex === -1
-      ) {
+    ) {
         return;
-      }
+    }
 
-      transitionTo(
+    transitionTo(
         targetIndex,
         "navbar",
-      );
+    );
     };
 
     window.addEventListener(
-      "portfolio:navigate",
-      handleNavigation,
+    "portfolio:navigate",
+    handleNavigation,
     );
 
     return () => {
-      window.removeEventListener(
+    window.removeEventListener(
         "portfolio:navigate",
         handleNavigation,
-      );
+    );
     };
-  }, [transitionTo]);
+}, [transitionTo]);
 
-  
-  useEffect(() => {
+
+useEffect(() => {
     const html =
-      document.documentElement;
+    document.documentElement;
 
     const body =
-      document.body;
+    document.body;
 
     const previousHtmlOverflow =
-      html.style.overflow;
+    html.style.overflow;
 
     const previousBodyOverflow =
-      body.style.overflow;
+    body.style.overflow;
 
     html.style.overflow =
-      "hidden";
+    "hidden";
 
     body.style.overflow =
-      "hidden";
+    "hidden";
 
     return () => {
-      html.style.overflow =
+    html.style.overflow =
         previousHtmlOverflow;
 
-      body.style.overflow =
+    body.style.overflow =
         previousBodyOverflow;
     };
-  }, []);
+}, []);
 
-  
-  useEffect(() => {
+
+useEffect(() => {
     return () => {
-      clearTransitionTimers();
+    clearTransitionTimers();
 
-      if (
+    if (
         wheelResetTimer.current !==
         null
-      ) {
+    ) {
         window.clearTimeout(
-          wheelResetTimer.current,
+        wheelResetTimer.current,
         );
-      }
+    }
     };
-  }, [
+}, [
     clearTransitionTimers,
-  ]);
+]);
 
-  
-  const layerChildren =
+
+const layerChildren =
     Array.isArray(children)
-      ? children
-      : [children];
+    ? children
+    : [children];
 
-  return (
+return (
     <div
-      className="
+    className="
         absolute
         inset-0
         bottom-0
         top-16
         overflow-hidden
         bg-[#020304]
-      "
+    "
     >
-      <div
+    <div
         aria-hidden="true"
         className="
-          pointer-events-none
-          absolute
-          inset-0
-          [background-image:
+        pointer-events-none
+        absolute
+        inset-0
+        [background-image:
             linear-gradient(
-              rgba(255,255,255,0.025)_1px,
-              transparent_1px
+            rgba(255,255,255,0.025)_1px,
+            transparent_1px
             ),
             linear-gradient(
-              90deg,
-              rgba(255,255,255,0.025)_1px,
-              transparent_1px
+            90deg,
+            rgba(255,255,255,0.025)_1px,
+            transparent_1px
             )
-          ]
-          [background-size:64px_64px]
+        ]
+        [background-size:64px_64px]
         "
-      />
+    />
 
-      <div
+    <div
         aria-hidden="true"
         className="
-          pointer-events-none
-          absolute
-          inset-0
-          opacity-40
-          [background-image:
+        pointer-events-none
+        absolute
+        inset-0
+        opacity-40
+        [background-image:
             repeating-linear-gradient(
-              to_bottom,
-              transparent 0px,
-              transparent 3px,
-              rgba(255,255,255,0.018) 4px
+            to_bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(255,255,255,0.018) 4px
             )
-          ]
+        ]
         "
-      />
+    />
 
-      <div
+    <div
         aria-hidden="true"
         className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-[radial-gradient(
+        pointer-events-none
+        absolute
+        inset-0
+        bg-[radial-gradient(
             circle_at_50%_20%,
             rgba(30,180,255,0.045),
             transparent_42%
-          )]
+        )]
         "
-      />
+    />
 
-      {layerChildren.map(
+    {layerChildren.map(
         (child, index) => (
-          <div
+        <div
             key={
-              LAYERS[index]?.id ??
-              index
+            LAYERS[index]?.id ??
+            index
             }
             aria-hidden={
-              index !==
-              activeLayer
+            index !==
+            activeLayer
             }
             className="
-              absolute
-              inset-0
+            absolute
+            inset-0
             "
             style={{
-              visibility:
+            visibility:
                 index ===
                 activeLayer
-                  ? "visible"
-                  : "hidden",
+                ? "visible"
+                : "hidden",
 
-              pointerEvents:
+            pointerEvents:
                 index ===
                 activeLayer
-                  ? "auto"
-                  : "none",
+                ? "auto"
+                : "none",
             }}
-          >
+        >
             {child}
-          </div>
+        </div>
         ),
-      )}
+    )}
 
-      <LiquidTransition
+    <LiquidTransition
         active={
-          transition.active
+        transition.active
         }
         direction={
-          transition.direction
+        transition.direction
         }
         label={
-          transition.label
+        transition.label
         }
         source={
-          transition.source
+        transition.source
         }
-      />
+    />
     </div>
-  );
-  
+);
+
 }

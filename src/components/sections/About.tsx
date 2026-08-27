@@ -1,39 +1,69 @@
+"use client";
+
 import { Container } from "@/components/layout/Container";
+import { useLocale } from "@/hooks/useLocale";
 
 export function About() {
+  const { content } = useLocale();
+
   return (
     <section
       id="about"
-      className="py-24 md:py-32"
+      className="
+        py-24
+        md:py-32
+      "
     >
       <Container>
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div>
-            <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              About
-            </p>
+        <div
+          className="
+            mx-auto
+            flex
+            max-w-4xl
+            flex-col
+            items-center
+            text-center
+          "
+        >
+          <p
+            className="
+              mb-4
+              text-sm
+              font-medium
+              uppercase
+              tracking-[0.2em]
+              text-muted-foreground
+            "
+          >
+            {content.about.label}
+          </p>
 
-            <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
-              Trần Nguyễn Anh Khoa
-            </h2>
-          </div>
+          <h2
+            className="
+              max-w-3xl
+              text-4xl
+              font-bold
+              tracking-tight
+              md:text-5xl
+              lg:text-6xl
+          "
+          >
+            {content.about.title}
+          </h2>
 
-          <div className="space-y-6 text-muted-foreground">
-            <p>
-              I am a frontend engineer passionate about creating performant,
-              accessible, and visually engaging web applications.
-            </p>
-
-            <p>
-              I enjoy crafting user interfaces that balance clean design,
-              thoughtful interactions, and scalable architecture.
-            </p>
-
-            <p>
-              My focus is building products that not only look great but also
-              provide an exceptional user experience.
-            </p>
-          </div>
+          <p
+            className="
+              mt-8
+              max-w-3xl
+              text-lg
+              leading-8
+              text-muted-foreground
+              md:text-xl
+              md:leading-9
+            "
+          >
+            {content.about.description}
+          </p>
         </div>
       </Container>
     </section>

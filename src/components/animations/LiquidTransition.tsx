@@ -2,6 +2,8 @@
 
 import { motion } from "motion/react";
 
+import { useLocale } from "@/hooks/useLocale";
+
 type LiquidTransitionProps = {
   active: boolean;
   direction: 1 | -1;
@@ -15,6 +17,8 @@ export function LiquidTransition({
   label,
   source,
 }: LiquidTransitionProps) {
+  const { content } = useLocale();
+
   const fromTop =
     source === "navbar" ||
     direction > 0;
@@ -70,7 +74,6 @@ export function LiquidTransition({
           ],
         }}
       >
-
         <div
           className="
             absolute
@@ -79,11 +82,9 @@ export function LiquidTransition({
           "
         />
 
-
         <LiquidEdge
           fromTop={fromTop}
         />
-
 
         <div
           className="
@@ -128,7 +129,7 @@ export function LiquidTransition({
                 text-white/35
               "
             >
-              Now entering
+              {content.transition.entering}
             </p>
 
             <h2

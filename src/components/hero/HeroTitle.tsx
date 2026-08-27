@@ -4,9 +4,11 @@ import {
   type CSSProperties,
 } from "react";
 
-import { siteConfig } from "@/config/site";
+import { useLocale } from "@/hooks/useLocale";
 
 export function HeroTitle() {
+  const { content } = useLocale();
+
   const style = {
     transform: `
       translate3d(
@@ -91,13 +93,7 @@ export function HeroTitle() {
       "
       style={style}
     >
-      Hi, I&apos;m{" "}
-      <span className="text-muted-foreground">
-        {siteConfig.name}
-      </span>
-      .
-      <br />
-      I build Software for breads.
+      {content.hero.title}
     </h1>
   );
 }

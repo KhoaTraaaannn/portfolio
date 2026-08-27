@@ -1,17 +1,20 @@
+"use client";
+
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
 import { siteConfig } from "@/config/site";
+import { useLocale } from "@/hooks/useLocale";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { content } = useLocale();
 
   return (
     <footer
       className="
         border-t
-        border-white/10
-        bg-white/[0.02]
+        bg-background
       "
     >
       <Container
@@ -28,7 +31,8 @@ export function Footer() {
         "
       >
         <p>
-          © {currentYear} {siteConfig.name}. All rights reserved.
+          © {currentYear} {siteConfig.name}.{" "}
+          {content.footer.rights}
         </p>
 
         <nav
