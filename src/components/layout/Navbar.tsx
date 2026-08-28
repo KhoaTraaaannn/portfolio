@@ -7,6 +7,7 @@ import { Container } from "@/components/layout/Container";
 import { siteConfig } from "@/config/site";
 import { ResumeViewer } from "@/components/resume/ResumeViewer";
 import { useLocale } from "@/hooks/useLocale";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const navigation = [
   {
@@ -44,8 +45,7 @@ function navigateToLayer(targetId: string) {
 }
 
 export function Navbar() {
-  const [resumeOpen, setResumeOpen] =
-    useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
 
   const {
     locale,
@@ -54,9 +54,7 @@ export function Navbar() {
   } = useLocale();
 
   const toggleLocale = () => {
-    setLocale(
-      locale === "vi" ? "en" : "vi",
-    );
+    setLocale(locale === "vi" ? "en" : "vi");
   };
 
   return (
@@ -79,7 +77,6 @@ export function Navbar() {
             justify-between
           "
         >
-          {/* Brand */}
           <Link
             href="/"
             className="
@@ -91,7 +88,6 @@ export function Navbar() {
             {siteConfig.name}
           </Link>
 
-          {/* Navigation */}
           <nav
             aria-label="Main navigation"
             className="
@@ -106,9 +102,7 @@ export function Navbar() {
                 key={item.targetId}
                 type="button"
                 onClick={() =>
-                  navigateToLayer(
-                    item.targetId,
-                  )
+                  navigateToLayer(item.targetId)
                 }
                 className="
                   text-sm
@@ -122,7 +116,6 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Actions */}
           <div
             className="
               flex
@@ -130,7 +123,8 @@ export function Navbar() {
               gap-2
             "
           >
-            {/* Language */}
+            <ThemeToggle />
+
             <button
               type="button"
               onClick={toggleLocale}
@@ -156,17 +150,12 @@ export function Navbar() {
                 hover:bg-accent
               "
             >
-              {locale === "vi"
-                ? "EN"
-                : "VI"}
+              {locale === "vi" ? "EN" : "VI"}
             </button>
 
-            {/* Resume */}
             <button
               type="button"
-              onClick={() =>
-                setResumeOpen(true)
-              }
+              onClick={() => setResumeOpen(true)}
               className="
                 rounded-md
                 bg-foreground
@@ -187,9 +176,7 @@ export function Navbar() {
 
       <ResumeViewer
         open={resumeOpen}
-        onClose={() =>
-          setResumeOpen(false)
-        }
+        onClose={() => setResumeOpen(false)}
       />
     </>
   );

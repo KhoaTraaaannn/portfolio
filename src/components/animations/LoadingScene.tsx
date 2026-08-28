@@ -1,16 +1,36 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { motion } from "motion/react";
+import { useTheme } from "@teispace/next-themes";
 
 import LoadingCharacter from "@/public/Loading.png";
+import LoadingCharacterLight from "@/public/LoadingLight.png";
 
 const LOADING_DURATION = 10000;
 
 export function LoadingScene() {
-  const [progress, setProgress] = useState(0);
-  const [complete, setComplete] = useState(false);
+    const { resolvedTheme } = useTheme();
+
+    const mounted = useSyncExternalStore(
+      () => () => {},
+      () => true,
+      () => false,
+    );
+
+    const [progress, setProgress] = useState(0);
+    const [complete, setComplete] = useState(false);
+
+    const isLight = mounted && resolvedTheme === "light";
+
+    const loadingCharacter = isLight
+      ? LoadingCharacterLight
+      : LoadingCharacter;
 
   useEffect(() => {
     const startedAt = performance.now();
@@ -56,18 +76,21 @@ export function LoadingScene() {
       aria-label="Loading portfolio"
       aria-live="polite"
       className={`
-        fixed
-        inset-0
-        z-[9999]
-        overflow-hidden
-        bg-[#020304]
-        text-white
-        ${
-          complete
-            ? "pointer-events-none"
-            : "pointer-events-auto"
-        }
-      `}
+          fixed
+          inset-0
+          z-[9999]
+          overflow-hidden
+          ${
+            isLight
+              ? "bg-[#f5f3ee] text-neutral-900"
+              : "bg-[#020304] text-white"
+          }
+          ${
+            complete
+              ? "pointer-events-none"
+              : "pointer-events-auto"
+          }
+        `}
       initial={{ opacity: 1 }}
       animate={{
         opacity: complete ? 0 : 1,
@@ -79,55 +102,70 @@ export function LoadingScene() {
     >
      
 
-      <div className="pointer-events-none absolute inset-0">
-        <div
-          className="
-            absolute
-            inset-0
-            opacity-[0.11]
-            [background-image:linear-gradient(rgba(90,220,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(90,220,255,0.07)_1px,transparent_1px)]
-            [background-size:72px_72px]
-          "
-        />
+          <div
+            className={`
+              absolute
+              inset-0
+              ${
+                isLight
+                  ? "opacity-[0.045] [background-image:linear-gradient(rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.06)_1px,transparent_1px)]"
+                  : "opacity-[0.11] [background-image:linear-gradient(rgba(90,220,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(90,220,255,0.07)_1px,transparent_1px)]"
+              }
+              [background-size:72px_72px]
+            `}
+          />
 
-        <div
-          className="
-            absolute
-            inset-0
-            opacity-[0.07]
-            [background-image:linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)]
-            [background-size:18px_18px]
-          "
-        />
+          <div
+            className={`
+              absolute
+              inset-0
+              ${
+                isLight
+                  ? "opacity-[0.025] [background-image:linear-gradient(rgba(0,0,0,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.035)_1px,transparent_1px)]"
+                  : "opacity-[0.07] [background-image:linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)]"
+              }
+              [background-size:18px_18px]
+            `}
+          />
 
-        <div
-          className="
-            absolute
-            inset-0
-            opacity-[0.035]
-            [background-image:repeating-linear-gradient(to_bottom,transparent_0px,transparent_3px,rgba(255,255,255,0.6)_4px)]
-          "
-        />
+          <div
+            className={`
+              absolute
+              inset-0
+              ${
+                isLight
+                  ? "opacity-[0.018] [background-image:repeating-linear-gradient(to_bottom,transparent_0px,transparent_3px,rgba(0,0,0,0.25)_4px)]"
+                  : "opacity-[0.035] [background-image:repeating-linear-gradient(to_bottom,transparent_0px,transparent_3px,rgba(255,255,255,0.6)_4px)]"
+              }
+            `}
+          />
 
-        <div
-          className="
-            absolute
-            inset-0
-            bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.48)_100%)]
-          "
-        />
-      </div>
+          <div
+            className={`
+              absolute
+              inset-0
+              ${
+                isLight
+                  ? "bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.08)_100%)]"
+                  : "bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.48)_100%)]"
+              }
+            `}
+          />
 
      
       <div
-        className="
-          pointer-events-none
-          absolute
-          inset-7
-          border
-          border-white/[0.07]
-          md:inset-8
-        "
+        className={`
+            pointer-events-none
+            absolute
+            inset-7
+            border
+            md:inset-8
+            ${
+              isLight
+                ? "border-neutral-900/[0.08]"
+                : "border-white/[0.07]"
+            }
+          `}
       >
         <div
           className="
@@ -197,48 +235,48 @@ export function LoadingScene() {
       >
         <div className="space-y-2">
           <p
-            className="
-              font-mono
-              text-[10px]
-              tracking-[0.35em]
-              text-cyan-200/60
-            "
+            className={`
+                font-mono
+                text-[10px]
+                tracking-[0.35em]
+                ${isLight ? "text-black font-semibold" : "text-cyan-200/60"}
+              `}
           >
             PORTFOLIO.OS
           </p>
 
           <p
-            className="
-              font-mono
-              text-[10px]
-              tracking-[0.3em]
-              text-cyan-200/50
-            "
+            className={`
+                    font-mono
+                    text-[10px]
+                    tracking-[0.3em]
+                    ${isLight ? "text-black/70 font-medium" : "text-cyan-200/50"}
+                  `}
           >
             v1.0.0
           </p>
         </div>
 
         <div className="text-right">
-          <p
-            className="
-              font-mono
-              text-[10px]
-              tracking-[0.3em]
-              text-cyan-200/55
-            "
-          >
-            SYSTEM INITIALIZATION
-          </p>
+            <p
+              className={`
+                font-mono
+                text-[10px]
+                tracking-[0.3em]
+                ${isLight ? "text-black font-semibold" : "text-cyan-200/55"}
+              `}
+            >
+              SYSTEM INITIALIZATION
+            </p>
 
           <p
-            className="
+            className={`
               mt-2
               font-mono
               text-[10px]
               tracking-[0.3em]
-              text-cyan-200/45
-            "
+              ${isLight ? "text-black/70 font-medium" : "text-cyan-200/45"}
+            `}
           >
             PLEASE WAIT
           </p>
@@ -276,12 +314,16 @@ export function LoadingScene() {
           />
 
           <span
-            className="
-              font-mono
-              text-[11px]
-              tracking-[0.42em]
-              text-white/45
-            "
+            className={`
+                  font-mono
+                  text-[11px]
+                  tracking-[0.42em]
+                  ${
+                    isLight
+                      ? "text-neutral-800/45"
+                      : "text-white/45"
+                  }
+                `}
           >
             LOADING...
           </span>
@@ -305,56 +347,67 @@ export function LoadingScene() {
 
             
 
-            <motion.div
-              className="
-                absolute
-                left-[55%]
-                top-[48%]
-                h-32
-                w-32
-                -translate-x-1/2
-                -translate-y-1/2
-                rounded-full
-                bg-orange-400/[0.07]
-                blur-3xl
-              "
-              animate={{
-                scale: [0.85, 1.15, 0.9],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 2.1,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
+            {!isLight && (
+                <motion.div
+                  className="
+                    absolute
+                    left-[55%]
+                    top-[48%]
+                    h-32
+                    w-32
+                    -translate-x-1/2
+                    -translate-y-1/2
+                    rounded-full
+                    bg-orange-400/[0.07]
+                    blur-3xl
+                  "
+                  animate={{
+                    scale: [0.85, 1.15, 0.9],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 2.1,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              )}
+            
 
             
 
             <div
-              className="
-                absolute
-                bottom-5
-                left-0
-                right-0
-                h-px
-                bg-white/[0.12]
-              "
-            />
+                className={`
+                  absolute
+                  bottom-5
+                  left-0
+                  right-0
+                  h-px
+                  ${
+                    isLight
+                      ? "bg-black/[0.12]"
+                      : "bg-white/[0.12]"
+                  }
+                `}
+              />
 
             <div
-              className="
-                absolute
-                bottom-[19px]
-                left-[8%]
-                right-[8%]
-                h-px
-                bg-gradient-to-r
-                from-transparent
-                via-orange-300/20
-                to-transparent
-              "
-            />
+                className={`
+                  absolute
+                  bottom-[19px]
+                  left-[8%]
+                  right-[8%]
+                  h-px
+                  bg-gradient-to-r
+                  from-transparent
+                  ${
+                    isLight
+                      ? "via-neutral-400/15"
+                      : "via-orange-300/20"
+                  }
+                  to-transparent
+                `}
+              />
 
             <div
               className="
@@ -424,29 +477,34 @@ export function LoadingScene() {
               }}
             >
               <Image
-                src={LoadingCharacter}
+                src={loadingCharacter}
                 alt=""
                 priority
-                className="
-                  h-[210px]
-                  w-auto
-                  object-contain
-                  md:h-[250px]
-                  drop-shadow-[0_0_18px_rgba(255,170,80,0.08)]
-                "
+                className={`
+                    h-[210px]
+                    w-auto
+                    object-contain
+                    md:h-[250px]
+                    ${
+                      isLight
+                        ? "drop-shadow-[0_4px_14px_rgba(0,0,0,0.08)]"
+                        : "drop-shadow-[0_0_18px_rgba(255,170,80,0.08)]"
+                    }
+                  `}
               />
             </motion.div>
 
             
 
-            <div
-              className="
-                absolute
-                bottom-5
-                left-[57%]
-                -translate-x-1/2
-              "
-            >
+            {!isLight && (
+                <div
+                  className="
+                    absolute
+                    bottom-5
+                    left-[57%]
+                    -translate-x-1/2
+                  "
+                >
               <motion.div
                 className="
                   absolute
@@ -599,7 +657,111 @@ export function LoadingScene() {
                 "
               />
             </div>
+            )}
+            {isLight && (
+                <div
+                  className="
+                    absolute
+                    bottom-5
+                    left-[57%]
+                    -translate-x-1/2
+                  "
+                >
+                  <div
+                    className="
+                      absolute
+                      bottom-0
+                      left-1/2
+                      h-3
+                      w-20
+                      -translate-x-1/2
+                      rotate-12
+                      rounded-full
+                      bg-neutral-700/80
+                    "
+                  />
+
+                  <div
+                    className="
+                      absolute
+                      bottom-0
+                      left-1/2
+                      h-3
+                      w-20
+                      -translate-x-1/2
+                      -rotate-12
+                      rounded-full
+                      bg-neutral-800/80
+                    "
+                  />
+
+                  <div
+                    className="
+                      absolute
+                      bottom-1
+                      left-1/2
+                      h-4
+                      w-20
+                      -translate-x-1/2
+                      rounded-full
+                      bg-neutral-500/25
+                      blur-[3px]
+                    "
+                  />
+
+                  <div
+                    className="
+                      absolute
+                      bottom-3
+                      left-1/2
+                      h-3
+                      w-14
+                      -translate-x-1/2
+                      rounded-full
+                      bg-neutral-400/20
+                      blur-[2px]
+                    "
+                  />
+
+                  <span
+                    className="
+                      absolute
+                      bottom-2
+                      left-[35%]
+                      h-1.5
+                      w-1.5
+                      rounded-full
+                      bg-neutral-500/50
+                    "
+                  />
+
+                  <span
+                    className="
+                      absolute
+                      bottom-3
+                      left-[55%]
+                      h-1
+                      w-1
+                      rounded-full
+                      bg-neutral-400/40
+                    "
+                  />
+
+                  <span
+                    className="
+                      absolute
+                      bottom-1
+                      left-[70%]
+                      h-1
+                      w-1
+                      rounded-full
+                      bg-neutral-600/50
+                    "
+                  />
+                </div>
+              )}
           </div>
+            
         </div>
       </div>
 
@@ -617,83 +779,92 @@ export function LoadingScene() {
       >
         <div className="mb-3 flex items-end justify-between">
           <span
-            className="
-              font-mono
-              text-[11px]
-              tracking-[0.25em]
-              text-cyan-300/80
-            "
-          >
-            0%
-          </span>
+              className={`
+                  font-mono
+                  text-[11px]
+                  tracking-[0.25em]
+                  ${isLight ? "text-black/70 font-medium" : "text-cyan-300/80"}
+                `}
+            >
+              0%
+            </span>
 
           <motion.span
-            className="
-              font-mono
-              text-2xl
-              tracking-[0.15em]
-              text-cyan-300
-              drop-shadow-[0_0_10px_rgba(103,232,249,0.55)]
-            "
-          >
+              className={`
+                font-mono
+                text-2xl
+                tracking-[0.15em]
+                ${
+                  isLight
+                    ? "text-black font-semibold"
+                    : "text-cyan-300 drop-shadow-[0_0_10px_rgba(103,232,249,0.55)]"
+                }
+              `}
+            >
             {String(percentage).padStart(3, "0")}%
           </motion.span>
 
           <span
-            className="
-              font-mono
-              text-[11px]
-              tracking-[0.25em]
-              text-cyan-300/80
-            "
-          >
-            100%
-          </span>
+              className={`
+                  font-mono
+                  text-[11px]
+                  tracking-[0.25em]
+                  ${isLight ? "text-black/70 font-medium" : "text-cyan-300/80"}
+                `}
+            >
+              100%
+            </span>
         </div>
 
         <div
-          className="
+          className={`
             relative
             h-5
             border
-            border-white/25
-            bg-black/50
             p-[3px]
-          "
+            ${
+              isLight
+                ? "border-neutral-900/15 bg-neutral-900/[0.04]"
+                : "border-white/25 bg-black/50"
+            }
+          `}
         >
           <motion.div
-            className="
-              relative
-              h-full
-              origin-left
-              bg-cyan-300
-              shadow-[0_0_18px_rgba(103,232,249,0.8)]
-            "
-            style={{
-              scaleX: progress,
-            }}
-          >
-            <div
-              className="
+                className={`
+                  relative
+                  h-full
+                  origin-left
+                  ${
+                    isLight
+                      ? "bg-black shadow-[0_0_10px_rgba(0,0,0,0.18)]"
+                      : "bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,0.8)]"
+                  }
+                `}
+                style={{
+                  scaleX: progress,
+                }}
+              >
+           <div
+              className={`
                 absolute
                 inset-y-0
                 right-0
                 w-10
-                bg-white/35
                 blur-[3px]
-              "
+                ${isLight ? "bg-white/45" : "bg-white/35"}
+              `}
             />
           </motion.div>
 
           <motion.div
-            className="
-              pointer-events-none
-              absolute
-              inset-y-0
-              w-16
-              bg-white/20
-              blur-md
-            "
+              className={`
+                pointer-events-none
+                absolute
+                inset-y-0
+                w-16
+                blur-md
+                ${isLight ? "bg-black/10" : "bg-white/20"}
+              `}
             animate={{
               left: ["0%", "100%"],
             }}
@@ -707,15 +878,19 @@ export function LoadingScene() {
 
         <div className="mt-10 text-center">
           <p
-            className="
-              font-mono
-              text-sm
-              tracking-[0.45em]
-              text-white/55
-            "
-          >
-            LOADING... PLEASE WAIT
-          </p>
+              className={`
+                font-mono
+                text-sm
+                tracking-[0.45em]
+                ${
+                  isLight
+                    ? "text-black/65 font-medium"
+                    : "text-white/55"
+                }
+              `}
+            >
+              LOADING... PLEASE WAIT
+            </p>
         </div>
       </div>
 
@@ -734,24 +909,24 @@ export function LoadingScene() {
       >
         <div>
           <p
-            className="
+            className={`
               font-mono
               text-[10px]
               tracking-[0.3em]
-              text-white/40
-            "
+              ${isLight ? "text-neutral-800/45" : "text-white/40"}
+            `}
           >
             SECURE CONNECTION
           </p>
 
           <p
-            className="
-              mt-2
-              font-mono
-              text-[10px]
-              tracking-[0.3em]
-              text-white/35
-            "
+            className={`
+                mt-2
+                font-mono
+                text-[10px]
+                tracking-[0.3em]
+                ${isLight ? "text-neutral-800/35" : "text-white/35"}
+              `}
           >
             ESTABLISHING...
           </p>
@@ -765,24 +940,25 @@ export function LoadingScene() {
 
         <div className="text-right">
           <p
-            className="
-              font-mono
-              text-[10px]
-              tracking-[0.3em]
-              text-white/40
-            "
+            className={`
+                  mt-2
+                  font-mono
+                  text-[10px]
+                  tracking-[0.3em]
+                  ${isLight ? "text-neutral-800/35" : "text-white/35"}
+                `}
           >
             SYSTEM STATUS
           </p>
 
           <p
-            className="
-              mt-2
-              font-mono
-              text-[10px]
-              tracking-[0.3em]
-              text-white/35
-            "
+            className={`
+                    mt-2
+                    font-mono
+                    text-[10px]
+                    tracking-[0.3em]
+                    ${isLight ? "text-neutral-800/35" : "text-white/35"}
+                  `}
           >
             {complete ? "ONLINE" : "CONNECTING..."}
           </p>

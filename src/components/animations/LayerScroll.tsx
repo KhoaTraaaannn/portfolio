@@ -11,7 +11,7 @@ useState,
 import { useReducedMotion } from "motion/react";
 import { useLocale } from "@/hooks/useLocale";
 
-import { LiquidTransition } from "./LiquidTransition";
+import { ThemeTransition } from "@/components/animations/ThemeTransition";
 
 type LayerScrollProps = {
 children: ReactNode;
@@ -514,14 +514,14 @@ const layerChildren =
 
 return (
     <div
-    className="
+        className="
         absolute
         inset-0
         bottom-0
         top-16
         overflow-hidden
-        bg-[#020304]
-    "
+        bg-background
+        "
     >
     <div
         aria-hidden="true"
@@ -610,20 +610,20 @@ return (
         ),
     )}
 
-    <LiquidTransition
-        active={
-        transition.active
-        }
-        direction={
-        transition.direction
-        }
-        label={
-        transition.label
-        }
-        source={
-        transition.source
-        }
-    />
+    <ThemeTransition
+            active={
+                transition.active
+            }
+            direction={
+                transition.direction
+            }
+            label={
+                transition.label
+            }
+            source={
+                transition.source
+            }
+            />
     </div>
 );
 
