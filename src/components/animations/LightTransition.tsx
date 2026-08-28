@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-
 import { useLocale } from "@/hooks/useLocale";
 
 type LightTransitionProps = {
@@ -10,47 +9,6 @@ type LightTransitionProps = {
   label: string;
   source: "wheel" | "navbar";
 };
-
-/**
- * ================================================================
- * LIGHT TRANSITION — WHITE BLIZZARD
- * ================================================================
- *
- * Pure white transition.
- *
- * Concept:
- *
- *      current page
- *             ╲
- *              ╲
- *       ═══════════════
- *          ═══════════════
- *              ╲
- *               ╲
- *                ╲
- *                  → white
- *
- * - Pure white only.
- * - No cream.
- * - No blend modes.
- * - No gradients.
- * - No blur.
- * - No filters.
- * - No particles.
- * - No snow.
- *
- * The white veil progressively covers the page while large
- * white wind strokes sweep through it.
- *
- * Text remains black and enters from below.
- *
- * Performance:
- * Only the main wind/veil container is transformed.
- */
-
-/* ----------------------------------------------------------------
- * COLORS
- * ---------------------------------------------------------------- */
 
 const WHITE = "#FFFFFF";
 const BLACK = "#111111";
@@ -70,7 +28,6 @@ const WIND_BANDS = [
     width: 82,
     opacity: 0.96,
   },
-
   {
     d: `
       M -340 165
@@ -81,7 +38,6 @@ const WIND_BANDS = [
     width: 148,
     opacity: 0.86,
   },
-
   {
     d: `
       M -350 285
@@ -92,7 +48,6 @@ const WIND_BANDS = [
     width: 64,
     opacity: 0.98,
   },
-
   {
     d: `
       M -360 405
@@ -103,7 +58,6 @@ const WIND_BANDS = [
     width: 182,
     opacity: 0.80,
   },
-
   {
     d: `
       M -350 530
@@ -114,7 +68,6 @@ const WIND_BANDS = [
     width: 78,
     opacity: 0.98,
   },
-
   {
     d: `
       M -340 650
@@ -125,7 +78,6 @@ const WIND_BANDS = [
     width: 138,
     opacity: 0.82,
   },
-
   {
     d: `
       M -320 770
@@ -136,7 +88,6 @@ const WIND_BANDS = [
     width: 60,
     opacity: 0.94,
   },
-
   {
     d: `
       M -300 885
@@ -164,7 +115,6 @@ const AIR_CURRENTS = [
     width: 10,
     opacity: 0.96,
   },
-
   {
     d: `
       M -175 455
@@ -175,7 +125,6 @@ const AIR_CURRENTS = [
     width: 8,
     opacity: 0.92,
   },
-
   {
     d: `
       M -165 665
@@ -186,7 +135,6 @@ const AIR_CURRENTS = [
     width: 10,
     opacity: 0.88,
   },
-
   {
     d: `
       M -100 780
@@ -206,106 +154,46 @@ const VORTEX = [
   {
     d: `
       M 250 500
-
-      C 350 325
-        590 250
-        835 315
-
-      C 1060 375
-        1180 535
-        1115 690
-
-      C 1050 840
-        810 875
-        595 785
-
-      C 420 710
-        360 555
-        455 445
-
-      C 525 365
-        665 350
-        795 405
+      C 350 325 590 250 835 315
+      C 1060 375 1180 535 1115 690
+      C 1050 840 810 875 595 785
+      C 420 710 360 555 455 445
+      C 525 365 665 350 795 405
     `,
     width: 94,
     opacity: 0.64,
   },
-
   {
     d: `
       M 390 535
-
-      C 480 405
-        650 350
-        805 400
-
-      C 950 450
-        1015 555
-        975 660
-
-      C 935 775
-        780 810
-        630 755
-
-      C 505 710
-        455 600
-        520 515
-
-      C 570 450
-        675 430
-        765 465
+      C 480 405 650 350 805 400
+      C 950 450 1015 555 975 660
+      C 935 775 780 810 630 755
+      C 505 710 455 600 520 515
+      C 570 450 675 430 765 465
     `,
     width: 50,
     opacity: 0.90,
   },
-
   {
     d: `
       M 515 555
-
-      C 560 490
-        655 460
-        745 490
-
-      C 830 520
-        870 585
-        840 645
-
-      C 810 710
-        720 735
-        640 700
-
-      C 570 670
-        545 610
-        575 560
-
-      C 605 520
-        675 505
-        720 525
+      C 560 490 655 460 745 490
+      C 830 520 870 585 840 645
+      C 810 710 720 735 640 700
+      C 570 670 545 610 575 560
+      C 605 520 675 505 720 525
     `,
     width: 21,
     opacity: 1,
   },
-
   {
     d: `
       M 625 555
-
-      C 660 520
-        715 515
-        750 540
-
-      C 785 560
-        790 595
-        765 620
-
-      C 740 645
-        695 645
-        665 625
-
-      C 640 605
-        642 575
-        665 555
+      C 660 520 715 515 750 540
+      C 785 560 790 595 765 620
+      C 740 645 695 645 665 625
+      C 640 605 642 575 665 555
     `,
     width: 9,
     opacity: 1,
@@ -325,7 +213,6 @@ const TRAILING_AIR = [
     width: 7,
     opacity: 0.88,
   },
-
   {
     d: `
       M 970 330
@@ -334,7 +221,6 @@ const TRAILING_AIR = [
     width: 6,
     opacity: 0.84,
   },
-
   {
     d: `
       M -100 700
@@ -343,7 +229,6 @@ const TRAILING_AIR = [
     width: 6,
     opacity: 0.82,
   },
-
   {
     d: `
       M 995 690
@@ -365,28 +250,21 @@ export function LightTransition({
   source,
 }: LightTransitionProps) {
   const { content } = useLocale();
-
-  /* --------------------------------------------------------------
-   * DIRECTION
-   *
-   * Forward:
-   *
-   *              10h
-   *                ╲
-   *                 ╲
-   *                  ╲
-   *                   ╲
-   *                    4h
-   * -------------------------------------------------------------- */
-
+console.log(
+  "🔥 LIGHT SSR/CLIENT",
+  typeof window === "undefined" ? "SERVER" : "CLIENT",
+);
   const forward =
     source === "navbar" || direction > 0;
 
-  const initialX = forward ? "-115%" : "115%";
-  const initialY = forward ? "-78%" : "78%";
+  /*
+   * 10 o'clock -> 4 o'clock
+   */
+  const enterX = forward ? "-115%" : "115%";
+  const enterY = forward ? "-78%" : "78%";
 
-  const exitX = forward ? "115%" : "-115%";
-  const exitY = forward ? "78%" : "-78%";
+  const leaveX = forward ? "115%" : "-115%";
+  const leaveY = forward ? "78%" : "-78%";
 
   return (
     <motion.div
@@ -398,35 +276,35 @@ export function LightTransition({
         z-[9990]
         overflow-hidden
       "
-      initial={{
-        opacity: 0,
-      }}
+      initial={false}
       animate={{
         opacity: active ? 1 : 0,
       }}
       transition={{
-        duration: active ? 0.02 : 0.16,
+        duration: active ? 0.04 : 0.18,
         ease: "linear",
       }}
     >
       {/* ==========================================================
-          WHITE VEIL + WIND
+          WIND FIELD
           ========================================================== */}
 
       <motion.div
         className="
           absolute
-          inset-[-32%]
           will-change-transform
         "
+        style={{
+          inset: "-32%",
+        }}
         initial={{
-          x: initialX,
-          y: initialY,
+          x: enterX,
+          y: enterY,
           rotate: -6,
         }}
         animate={{
-          x: active ? "0%" : exitX,
-          y: active ? "0%" : exitY,
+          x: active ? "0%" : leaveX,
+          y: active ? "0%" : leaveY,
           rotate: -6,
         }}
         transition={{
@@ -435,12 +313,11 @@ export function LightTransition({
         }}
       >
         {/* ========================================================
-            PURE WHITE VEIL
-
-            This is what completely hides the page underneath.
+            PURE WHITE COVER
             ======================================================== */}
 
         <div
+          aria-hidden="true"
           className="
             absolute
             inset-0
@@ -451,7 +328,7 @@ export function LightTransition({
         />
 
         {/* ========================================================
-            WHITE WIND
+            WIND SVG
             ======================================================== */}
 
         <svg
@@ -465,9 +342,7 @@ export function LightTransition({
           viewBox="0 0 1440 900"
           preserveAspectRatio="none"
         >
-          {/* ======================================================
-              LARGE WIND BANDS
-              ====================================================== */}
+          {/* LARGE WIND */}
 
           <g
             fill="none"
@@ -477,7 +352,7 @@ export function LightTransition({
           >
             {WIND_BANDS.map((wind, index) => (
               <path
-                key={`wind-band-${index}`}
+                key={`wind-${index}`}
                 d={wind.d}
                 strokeWidth={wind.width}
                 opacity={wind.opacity}
@@ -486,9 +361,7 @@ export function LightTransition({
             ))}
           </g>
 
-          {/* ======================================================
-              INNER AIR CURRENTS
-              ====================================================== */}
+          {/* AIR CURRENTS */}
 
           <g
             fill="none"
@@ -497,7 +370,7 @@ export function LightTransition({
           >
             {AIR_CURRENTS.map((air, index) => (
               <path
-                key={`air-current-${index}`}
+                key={`air-${index}`}
                 d={air.d}
                 strokeWidth={air.width}
                 opacity={air.opacity}
@@ -506,9 +379,7 @@ export function LightTransition({
             ))}
           </g>
 
-          {/* ======================================================
-              VORTEX
-              ====================================================== */}
+          {/* VORTEX */}
 
           <g
             fill="none"
@@ -527,9 +398,7 @@ export function LightTransition({
             ))}
           </g>
 
-          {/* ======================================================
-              TRAILING AIR
-              ====================================================== */}
+          {/* TRAILING AIR */}
 
           <g
             fill="none"
@@ -538,7 +407,7 @@ export function LightTransition({
           >
             {TRAILING_AIR.map((air, index) => (
               <path
-                key={`trailing-air-${index}`}
+                key={`trail-${index}`}
                 d={air.d}
                 strokeWidth={air.width}
                 opacity={air.opacity}
@@ -550,7 +419,7 @@ export function LightTransition({
       </motion.div>
 
       {/* ==========================================================
-          TITLE
+          TRANSITION TITLE
           ========================================================== */}
 
       <div
@@ -563,6 +432,12 @@ export function LightTransition({
         "
       >
         <motion.div
+          className="
+            relative
+            z-20
+            px-6
+            text-center
+          "
           initial={{
             opacity: 0,
             y: 56,
@@ -576,18 +451,17 @@ export function LightTransition({
             duration: active ? 0.46 : 0.22,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="
-            relative
-            z-20
-            px-6
-            text-center
-          "
         >
-          {/* ======================================================
-              EYEBROW
-              ====================================================== */}
-
           <motion.p
+            className="
+              text-xs
+              font-medium
+              uppercase
+              tracking-[0.4em]
+            "
+            style={{
+              color: BLACK,
+            }}
             initial={{
               opacity: 0,
               y: 18,
@@ -601,24 +475,22 @@ export function LightTransition({
               duration: 0.30,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="
-              text-xs
-              font-medium
-              uppercase
-              tracking-[0.4em]
-            "
-            style={{
-              color: BLACK,
-            }}
           >
             {content.transition.entering}
           </motion.p>
 
-          {/* ======================================================
-              MAIN TITLE
-              ====================================================== */}
-
           <motion.h2
+            className="
+              mt-3
+              text-5xl
+              font-semibold
+              tracking-[-0.04em]
+              md:text-7xl
+              lg:text-8xl
+            "
+            style={{
+              color: BLACK,
+            }}
             initial={{
               opacity: 0,
               y: 48,
@@ -631,17 +503,6 @@ export function LightTransition({
               delay: active ? 0.42 : 0,
               duration: 0.48,
               ease: [0.22, 1, 0.36, 1],
-            }}
-            className="
-              mt-3
-              text-5xl
-              font-semibold
-              tracking-[-0.04em]
-              md:text-7xl
-              lg:text-8xl
-            "
-            style={{
-              color: BLACK,
             }}
           >
             {label}

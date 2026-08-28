@@ -296,3 +296,234 @@ body {
     animation: none;
   }
 }
+/* ================================================================
+   LOADING SCENE — THEME STYLES
+   ================================================================ */
+
+.loading-scene {
+  --loading-bg: #f5f3ee;
+  --loading-text: #171717;
+
+  --loading-grid-1: rgba(0, 0, 0, 0.06);
+  --loading-grid-2: rgba(0, 0, 0, 0.035);
+
+  --loading-scanline: rgba(0, 0, 0, 0.25);
+  --loading-border: rgba(23, 23, 23, 0.08);
+  --loading-line: rgba(0, 0, 0, 0.12);
+}
+
+html.dark .loading-scene {
+  --loading-bg: #020304;
+  --loading-text: #ffffff;
+
+  --loading-grid-1: rgba(90, 220, 255, 0.07);
+  --loading-grid-2: rgba(255, 255, 255, 0.035);
+
+  --loading-scanline: rgba(255, 255, 255, 0.6);
+  --loading-border: rgba(255, 255, 255, 0.07);
+  --loading-line: rgba(255, 255, 255, 0.12);
+}
+
+.loading-scene {
+  background: var(--loading-bg);
+  color: var(--loading-text);
+}
+
+
+/* ----------------------------------------------------------------
+   PRIMARY LABEL
+   ---------------------------------------------------------------- */
+
+.loading-label-primary {
+  color: #000;
+  font-weight: 600;
+}
+
+html.dark .loading-label-primary {
+  color: rgba(165, 243, 252, 0.6);
+  font-weight: 400;
+}
+
+
+/* ----------------------------------------------------------------
+   STATUS DOT
+   ---------------------------------------------------------------- */
+
+.loading-status-dot {
+  background: #111111;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.35);
+}
+
+html.dark .loading-status-dot {
+  background: rgb(103, 232, 249);
+  box-shadow: 0 0 14px rgba(103, 232, 249, 0.9);
+}
+
+
+/* ----------------------------------------------------------------
+   ORANGE ATMOSPHERE — DARK ONLY
+   ---------------------------------------------------------------- */
+
+.loading-orange-glow {
+  background: rgba(251, 146, 60, 0.07);
+}
+
+html.light .loading-orange-glow {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+html.dark .loading-orange-glow {
+  opacity: 1;
+}
+
+
+/* ----------------------------------------------------------------
+   FRAME
+   ---------------------------------------------------------------- */
+
+.loading-frame {
+  border-color: rgba(23, 23, 23, 0.08);
+}
+
+html.dark .loading-frame {
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+
+/* ----------------------------------------------------------------
+   GROUND LINE
+   ---------------------------------------------------------------- */
+
+.loading-ground-line {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+html.dark .loading-ground-line {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* ----------------------------------------------------------------
+   GROUND GLOW
+   ---------------------------------------------------------------- */
+
+.loading-ground-glow {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    rgba(163, 163, 163, 0.15),
+    transparent
+  );
+}
+
+html.dark .loading-ground-glow {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    rgba(253, 186, 116, 0.2),
+    transparent
+  );
+}
+
+
+/* ----------------------------------------------------------------
+   DARK FIRE
+   ---------------------------------------------------------------- */
+
+.loading-fire {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html.dark .loading-fire {
+  visibility: visible;
+}
+
+
+/* ----------------------------------------------------------------
+   LIGHT GROUND
+   ---------------------------------------------------------------- */
+
+.loading-light-ground {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html.light .loading-light-ground {
+  visibility: visible;
+}
+
+
+/* ----------------------------------------------------------------
+   STATUS
+   ---------------------------------------------------------------- */
+
+.loading-status {
+  color: #000;
+  font-weight: 600;
+}
+
+html.dark .loading-status {
+  color: rgb(103 232 249);
+  font-weight: 400;
+  filter: drop-shadow(
+    0 0 10px rgba(103, 232, 249, 0.55)
+  );
+}
+
+
+/* ----------------------------------------------------------------
+   PROGRESS TRACK
+   ---------------------------------------------------------------- */
+
+.loading-progress-track {
+  border-color: rgba(23, 23, 23, 0.15);
+  background: rgba(23, 23, 23, 0.04);
+}
+
+html.dark .loading-progress-track {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
+/* ----------------------------------------------------------------
+   PROGRESS BAR
+   ---------------------------------------------------------------- */
+
+.loading-progress-bar {
+  background: #000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+}
+
+html.dark .loading-progress-bar {
+  background: rgb(103 232 249);
+  box-shadow: 0 0 18px rgba(103, 232, 249, 0.8);
+}
+
+
+/* ----------------------------------------------------------------
+   PROGRESS HIGHLIGHT
+   ---------------------------------------------------------------- */
+
+.loading-progress-highlight {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+html.dark .loading-progress-highlight {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+
+/* ----------------------------------------------------------------
+   PROGRESS GLOW
+   ---------------------------------------------------------------- */
+
+.loading-progress-glow {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+html.dark .loading-progress-glow {
+  background: rgba(255, 255, 255, 0.2);
+}
