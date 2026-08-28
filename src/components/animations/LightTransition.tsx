@@ -240,10 +240,7 @@ export function LightTransition({
   source,
 }: LightTransitionProps) {
   const { content } = useLocale();
-console.log(
-  "🔥 LIGHT SSR/CLIENT",
-  typeof window === "undefined" ? "SERVER" : "CLIENT",
-);
+
   const forward =
     source === "navbar" || direction > 0;
 
