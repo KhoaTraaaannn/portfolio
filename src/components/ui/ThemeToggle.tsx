@@ -12,14 +12,7 @@ type ThemeMode = "auto" | "light" | "dark";
 
 const STORAGE_KEY = "portfolio-theme-mode";
 
-/* ----------------------------------------------------------------
- * TIME-BASED THEME
- *
- * 06:00 -> 17:59 = Light
- * 18:00 -> 05:59 = Dark
- *
- * Uses the user's local browser time.
- * ---------------------------------------------------------------- */
+
 
 function getTimeTheme(): "light" | "dark" {
   const hour = new Date().getHours();
@@ -27,9 +20,6 @@ function getTimeTheme(): "light" | "dark" {
   return hour >= 6 && hour < 18 ? "light" : "dark";
 }
 
-/* ----------------------------------------------------------------
- * THEME MODE STORE
- * ---------------------------------------------------------------- */
 
 function getMode(): ThemeMode {
   if (typeof window === "undefined") {
@@ -76,21 +66,14 @@ function getServerMode(): ThemeMode {
   return "auto";
 }
 
-/* ----------------------------------------------------------------
- * CLOCK STORE
- * ---------------------------------------------------------------- */
+
 
 function subscribeClock(callback: () => void) {
   if (typeof window === "undefined") {
     return () => {};
   }
 
-  /*
-   * Re-check the local time every 30 seconds.
-   *
-   * This allows Auto mode to switch automatically
-   * when crossing 06:00 or 18:00 without a reload.
-   */
+  
   const interval = window.setInterval(callback, 30_000);
 
   return () => {
@@ -103,18 +86,10 @@ function getClockSnapshot(): "light" | "dark" {
 }
 
 function getClockServerSnapshot(): "light" | "dark" {
-  /*
-   * Keep SSR deterministic.
-   *
-   * The server cannot reliably know the browser's local timezone,
-   * so do not calculate the time-based theme during SSR.
-   */
+  
   return "light";
 }
 
-/* ----------------------------------------------------------------
- * COMPONENT
- * ---------------------------------------------------------------- */
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -131,17 +106,7 @@ export function ThemeToggle() {
     getClockServerSnapshot,
   );
 
-  /* --------------------------------------------------------------
-   * KEEP NEXT-THEMES IN SYNC WITH AUTO MODE
-   *
-   * This is important.
-   *
-   * Auto mode is controlled by local time, but next-themes
-   * still controls the actual "dark" class on <html>.
-   *
-   * Without this effect, LoadingScene can be Light while
-   * the actual portfolio is still Dark after loading finishes.
-   * -------------------------------------------------------------- */
+  
 
   useEffect(() => {
     if (mode !== "auto") {
@@ -158,9 +123,7 @@ export function ThemeToggle() {
     setTheme,
   ]);
 
-  /* --------------------------------------------------------------
-   * SET THEME MODE
-   * -------------------------------------------------------------- */
+  
 
   const setMode = useCallback(
     (nextMode: ThemeMode) => {
@@ -174,27 +137,17 @@ export function ThemeToggle() {
       );
 
       if (nextMode === "auto") {
-        /*
-         * Immediately apply the current local-time theme.
-         *
-         * Do not wait for the 30-second clock subscription.
-         */
+        
         setTheme(getTimeTheme());
       } else {
-        /*
-         * Manual mode ignores the clock.
-         */
+      
         setTheme(nextMode);
       }
     },
     [setTheme],
   );
 
-  /* --------------------------------------------------------------
-   * CYCLE:
-   *
-   * Auto -> Light -> Dark -> Auto
-   * -------------------------------------------------------------- */
+  
 
   const cycleTheme = useCallback(() => {
     switch (mode) {
@@ -212,13 +165,7 @@ export function ThemeToggle() {
     }
   }, [mode, setMode]);
 
-  /* --------------------------------------------------------------
-   * ACTIVE THEME
-   *
-   * Auto   -> local clock
-   * Light  -> next-themes
-   * Dark   -> next-themes
-   * -------------------------------------------------------------- */
+  
 
   const activeTheme =
     mode === "auto"
@@ -229,9 +176,7 @@ export function ThemeToggle() {
 
   const isLight = activeTheme === "light";
 
-  /* --------------------------------------------------------------
-   * ICON
-   * -------------------------------------------------------------- */
+  
 
   const icon =
     mode === "auto"
@@ -240,9 +185,7 @@ export function ThemeToggle() {
         ? "☀"
         : "☾";
 
-  /* --------------------------------------------------------------
-   * ACCESSIBILITY
-   * -------------------------------------------------------------- */
+  
 
   const ariaLabel =
     mode === "auto"
@@ -262,9 +205,7 @@ export function ThemeToggle() {
         ? "Manual · Light"
         : "Manual · Night";
 
-  /* --------------------------------------------------------------
-   * UI
-   * -------------------------------------------------------------- */
+  
 
   return (
     <button

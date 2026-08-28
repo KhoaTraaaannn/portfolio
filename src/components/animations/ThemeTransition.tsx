@@ -16,21 +16,7 @@ type ThemeTransitionProps = {
   source: "wheel" | "navbar";
 };
 
-/* ----------------------------------------------------------------
- * HYDRATION GATE
- *
- * Server:
- *   false
- *
- * First client render:
- *   false
- *
- * After hydration:
- *   true
- *
- * This guarantees that the transition tree is identical during
- * SSR hydration, regardless of the current theme.
- * ---------------------------------------------------------------- */
+
 
 function subscribe() {
   return () => {};
@@ -44,9 +30,6 @@ function getServerSnapshot() {
   return false;
 }
 
-/* ----------------------------------------------------------------
- * COMPONENT
- * ---------------------------------------------------------------- */
 
 export function ThemeTransition({
   active,
@@ -62,14 +45,7 @@ export function ThemeTransition({
     getServerSnapshot,
   );
 
-  /*
-   * IMPORTANT:
-   *
-   * Do not render either transition during SSR hydration.
-   *
-   * The actual theme is allowed to decide which transition
-   * gets mounted only after React has hydrated on the client.
-   */
+  
   if (!mounted) {
     return null;
   }

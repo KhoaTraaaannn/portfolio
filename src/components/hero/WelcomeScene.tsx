@@ -12,10 +12,7 @@ const WELCOME_DURATION = 10_000;
 export function WelcomeScene() {
   const router = useRouter();
 
-  /*
-   * If Welcome has already been completed,
-   * this route should never be shown again.
-   */
+
   useEffect(() => {
     const hasSeenWelcome =
       window.localStorage.getItem(
@@ -27,10 +24,7 @@ export function WelcomeScene() {
     }
   }, [router]);
 
-  /*
-   * Complete the Welcome experience after
-   * 10 seconds.
-   */
+
   useEffect(() => {
     const hasSeenWelcome =
       window.localStorage.getItem(
@@ -79,7 +73,6 @@ export function WelcomeScene() {
         bg-background
       "
     >
-      {/* Background */}
       <div
         aria-hidden="true"
         className="
@@ -107,7 +100,6 @@ export function WelcomeScene() {
         />
       </div>
 
-      {/* Top label */}
       <div
         className="
           absolute
@@ -130,7 +122,6 @@ export function WelcomeScene() {
         </p>
       </div>
 
-      {/* Welcome */}
       <motion.div
         style={welcomeStyle}
         initial={{
@@ -208,7 +199,6 @@ export function WelcomeScene() {
         />
       </motion.div>
 
-      {/* Bottom status */}
       <div
         className="
           absolute

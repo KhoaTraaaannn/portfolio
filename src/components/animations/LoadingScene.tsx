@@ -129,9 +129,7 @@ export function LoadingScene() {
         ease: [0.76, 0, 0.24, 1],
       }}
     >
-      {/* ====================================================== */}
-      {/* BACKGROUND GRID */}
-      {/* ====================================================== */}
+   
 
       <div
         className={`
@@ -187,9 +185,7 @@ export function LoadingScene() {
         `}
       />
 
-      {/* ====================================================== */}
-      {/* FRAME */}
-      {/* ====================================================== */}
+      
 
       <div
         className={`
@@ -258,9 +254,7 @@ export function LoadingScene() {
         />
       </div>
 
-      {/* ====================================================== */}
-      {/* TOP INFORMATION */}
-      {/* ====================================================== */}
+
 
       <div
         className="
@@ -338,9 +332,7 @@ export function LoadingScene() {
         </div>
       </div>
 
-      {/* ====================================================== */}
-      {/* LOADING STATUS */}
-      {/* ====================================================== */}
+     
 
       <div
         className="
@@ -390,9 +382,7 @@ export function LoadingScene() {
         </div>
       </div>
 
-      {/* ====================================================== */}
-      {/* CHARACTER + CAMPFIRE SCENE */}
-      {/* ====================================================== */}
+ 
 
       <div
         className="
@@ -407,9 +397,7 @@ export function LoadingScene() {
         <div className="mx-auto w-full max-w-[1200px]">
           <div className="relative h-[270px] md:h-[310px]">
 
-            {/* -------------------------------------------------- */}
-            {/* AMBIENT FIRE GLOW - DARK ONLY */}
-            {/* -------------------------------------------------- */}
+        
 
             {!isLight && (
               <motion.div
@@ -437,9 +425,7 @@ export function LoadingScene() {
               />
             )}
 
-            {/* -------------------------------------------------- */}
-            {/* GROUND LINE */}
-            {/* -------------------------------------------------- */}
+       
 
             <div
               className={`
@@ -538,9 +524,7 @@ export function LoadingScene() {
               `}
             />
 
-            {/* ================================================== */}
-            {/* CHARACTER */}
-            {/* ================================================== */}
+          
 
             <motion.div
               className="
@@ -559,14 +543,7 @@ export function LoadingScene() {
                 ease: "easeInOut",
               }}
             >
-              {/*
-                IMPORTANT:
-                Only ONE character is rendered.
-
-                DARK  -> Loading.png
-                LIGHT -> LoadingLight.png
-              */}
-
+              
               {isLight ? (
                 <Image
                   src={LoadingCharacterLight}
@@ -594,9 +571,7 @@ export function LoadingScene() {
               )}
             </motion.div>
 
-            {/* ================================================== */}
-            {/* DARK MODE — LIVE CAMPFIRE */}
-            {/* ================================================== */}
+         
 
             {!isLight && (
               <div
@@ -607,7 +582,7 @@ export function LoadingScene() {
                   -translate-x-1/2
                 "
               >
-                {/* Fire glow */}
+       
 
                 <motion.div
                   className="
@@ -633,7 +608,7 @@ export function LoadingScene() {
                   }}
                 />
 
-                {/* Sparks */}
+  
 
                 {[...Array(12)].map((_, index) => (
                   <motion.span
@@ -674,7 +649,7 @@ export function LoadingScene() {
                   />
                 ))}
 
-                {/* Flame */}
+        
 
                 <motion.div
                   className="
@@ -691,7 +666,7 @@ export function LoadingScene() {
                     ease: "easeInOut",
                   }}
                 >
-                  {/* Outer flame */}
+            
 
                   <motion.div
                     className="
@@ -717,7 +692,7 @@ export function LoadingScene() {
                     }}
                   />
 
-                  {/* Inner flame */}
+             
 
                   <motion.div
                     className="
@@ -742,7 +717,6 @@ export function LoadingScene() {
                   />
                 </motion.div>
 
-                {/* Logs */}
 
                 <div
                   className="
@@ -774,9 +748,7 @@ export function LoadingScene() {
               </div>
             )}
 
-            {/* ================================================== */}
-            {/* LIGHT MODE — EXTINGUISHED CAMPFIRE */}
-            {/* ================================================== */}
+           
 
             {isLight && (
               <div
@@ -787,7 +759,6 @@ export function LoadingScene() {
                   -translate-x-1/2
                 "
               >
-                {/* Burnt logs */}
 
                 <div
                   className="
@@ -817,7 +788,6 @@ export function LoadingScene() {
                   "
                 />
 
-                {/* Residual ash */}
 
                 <div
                   className="
@@ -847,7 +817,6 @@ export function LoadingScene() {
                   "
                 />
 
-                {/* Tiny ash particles */}
 
                 <span
                   className="
@@ -890,9 +859,7 @@ export function LoadingScene() {
         </div>
       </div>
 
-      {/* ====================================================== */}
-      {/* PROGRESS */}
-      {/* ====================================================== */}
+      
 
       <div
         className="
@@ -1037,9 +1004,7 @@ export function LoadingScene() {
         </div>
       </div>
 
-      {/* ====================================================== */}
-      {/* BOTTOM INFORMATION */}
-      {/* ====================================================== */}
+     
 
       <div
         className="
